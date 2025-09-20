@@ -1,0 +1,1619 @@
+{
+    "database": {
+        "name": "chatwoot",
+        "type": "postgresql",
+        "version": "13+",
+        "extensions": [
+            "pg_stat_statements",
+            "pg_trgm",
+            "pgcrypto",
+            "plpgsql",
+            "vector"
+        ]
+    },
+    "tables": [
+        {
+            "name": "accounts",
+            "description": "Tài khoản công ty/workspace",
+            "category": "core",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "SERIAL",
+                    "primary_key": true
+                },
+                {
+                    "name": "name",
+                    "type": "VARCHAR",
+                    "not_null": true
+                },
+                {
+                    "name": "created_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "updated_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "locale",
+                    "type": "INTEGER",
+                    "default": 0
+                },
+                {
+                    "name": "domain",
+                    "type": "VARCHAR(100)"
+                },
+                {
+                    "name": "support_email",
+                    "type": "VARCHAR(100)"
+                },
+                {
+                    "name": "feature_flags",
+                    "type": "BIGINT",
+                    "default": 0,
+                    "not_null": true
+                },
+                {
+                    "name": "auto_resolve_duration",
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "limits",
+                    "type": "JSONB",
+                    "default": "{}"
+                },
+                {
+                    "name": "custom_attributes",
+                    "type": "JSONB",
+                    "default": "{}"
+                },
+                {
+                    "name": "status",
+                    "type": "INTEGER",
+                    "default": 0
+                },
+                {
+                    "name": "internal_attributes",
+                    "type": "JSONB",
+                    "default": "{}",
+                    "not_null": true
+                },
+                {
+                    "name": "settings",
+                    "type": "JSONB",
+                    "default": "{}"
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "index_accounts_on_status",
+                    "columns": [
+                        "status"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "users",
+            "description": "Người dùng hệ thống",
+            "category": "core",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "SERIAL",
+                    "primary_key": true
+                },
+                {
+                    "name": "provider",
+                    "type": "VARCHAR",
+                    "default": "email",
+                    "not_null": true
+                },
+                {
+                    "name": "uid",
+                    "type": "VARCHAR",
+                    "default": "",
+                    "not_null": true
+                },
+                {
+                    "name": "encrypted_password",
+                    "type": "VARCHAR",
+                    "default": "",
+                    "not_null": true
+                },
+                {
+                    "name": "reset_password_token",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "reset_password_sent_at",
+                    "type": "TIMESTAMP"
+                },
+                {
+                    "name": "remember_created_at",
+                    "type": "TIMESTAMP"
+                },
+                {
+                    "name": "sign_in_count",
+                    "type": "INTEGER",
+                    "default": 0,
+                    "not_null": true
+                },
+                {
+                    "name": "current_sign_in_at",
+                    "type": "TIMESTAMP"
+                },
+                {
+                    "name": "last_sign_in_at",
+                    "type": "TIMESTAMP"
+                },
+                {
+                    "name": "current_sign_in_ip",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "last_sign_in_ip",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "confirmation_token",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "confirmed_at",
+                    "type": "TIMESTAMP"
+                },
+                {
+                    "name": "confirmation_sent_at",
+                    "type": "TIMESTAMP"
+                },
+                {
+                    "name": "unconfirmed_email",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "name",
+                    "type": "VARCHAR",
+                    "not_null": true
+                },
+                {
+                    "name": "display_name",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "email",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "tokens",
+                    "type": "JSON"
+                },
+                {
+                    "name": "created_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "updated_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "pubsub_token",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "availability",
+                    "type": "INTEGER",
+                    "default": 0
+                },
+                {
+                    "name": "ui_settings",
+                    "type": "JSONB",
+                    "default": "{}"
+                },
+                {
+                    "name": "custom_attributes",
+                    "type": "JSONB",
+                    "default": "{}"
+                },
+                {
+                    "name": "type",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "message_signature",
+                    "type": "TEXT"
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "index_users_on_email",
+                    "columns": [
+                        "email"
+                    ]
+                },
+                {
+                    "name": "index_users_on_pubsub_token",
+                    "columns": [
+                        "pubsub_token"
+                    ],
+                    "unique": true
+                },
+                {
+                    "name": "index_users_on_reset_password_token",
+                    "columns": [
+                        "reset_password_token"
+                    ],
+                    "unique": true
+                },
+                {
+                    "name": "index_users_on_uid_and_provider",
+                    "columns": [
+                        "uid",
+                        "provider"
+                    ],
+                    "unique": true
+                }
+            ]
+        },
+        {
+            "name": "account_users",
+            "description": "Liên kết user với account (vai trò, quyền)",
+            "category": "core",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "BIGSERIAL",
+                    "primary_key": true
+                },
+                {
+                    "name": "account_id",
+                    "type": "BIGINT"
+                },
+                {
+                    "name": "user_id",
+                    "type": "BIGINT"
+                },
+                {
+                    "name": "role",
+                    "type": "INTEGER",
+                    "default": 0
+                },
+                {
+                    "name": "inviter_id",
+                    "type": "BIGINT"
+                },
+                {
+                    "name": "created_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "updated_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "active_at",
+                    "type": "TIMESTAMP"
+                },
+                {
+                    "name": "availability",
+                    "type": "INTEGER",
+                    "default": 0,
+                    "not_null": true
+                },
+                {
+                    "name": "auto_offline",
+                    "type": "BOOLEAN",
+                    "default": true,
+                    "not_null": true
+                },
+                {
+                    "name": "custom_role_id",
+                    "type": "BIGINT"
+                },
+                {
+                    "name": "agent_capacity_policy_id",
+                    "type": "BIGINT"
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "uniq_user_id_per_account_id",
+                    "columns": [
+                        "account_id",
+                        "user_id"
+                    ],
+                    "unique": true
+                },
+                {
+                    "name": "index_account_users_on_account_id",
+                    "columns": [
+                        "account_id"
+                    ]
+                },
+                {
+                    "name": "index_account_users_on_agent_capacity_policy_id",
+                    "columns": [
+                        "agent_capacity_policy_id"
+                    ]
+                },
+                {
+                    "name": "index_account_users_on_custom_role_id",
+                    "columns": [
+                        "custom_role_id"
+                    ]
+                },
+                {
+                    "name": "index_account_users_on_user_id",
+                    "columns": [
+                        "user_id"
+                    ]
+                }
+            ],
+            "foreign_keys": [
+                {
+                    "column": "account_id",
+                    "references": "accounts(id)"
+                },
+                {
+                    "column": "user_id",
+                    "references": "users(id)"
+                }
+            ]
+        },
+        {
+            "name": "conversations",
+            "description": "Cuộc hội thoại",
+            "category": "conversation",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "SERIAL",
+                    "primary_key": true
+                },
+                {
+                    "name": "account_id",
+                    "type": "INTEGER",
+                    "not_null": true
+                },
+                {
+                    "name": "inbox_id",
+                    "type": "INTEGER",
+                    "not_null": true
+                },
+                {
+                    "name": "status",
+                    "type": "INTEGER",
+                    "default": 0,
+                    "not_null": true
+                },
+                {
+                    "name": "assignee_id",
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "created_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "updated_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "contact_id",
+                    "type": "BIGINT"
+                },
+                {
+                    "name": "display_id",
+                    "type": "INTEGER",
+                    "not_null": true
+                },
+                {
+                    "name": "contact_last_seen_at",
+                    "type": "TIMESTAMP"
+                },
+                {
+                    "name": "agent_last_seen_at",
+                    "type": "TIMESTAMP"
+                },
+                {
+                    "name": "additional_attributes",
+                    "type": "JSONB",
+                    "default": "{}"
+                },
+                {
+                    "name": "contact_inbox_id",
+                    "type": "BIGINT"
+                },
+                {
+                    "name": "uuid",
+                    "type": "UUID",
+                    "default": "gen_random_uuid()",
+                    "not_null": true
+                },
+                {
+                    "name": "identifier",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "last_activity_at",
+                    "type": "TIMESTAMP",
+                    "default": "CURRENT_TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "team_id",
+                    "type": "BIGINT"
+                },
+                {
+                    "name": "campaign_id",
+                    "type": "BIGINT"
+                },
+                {
+                    "name": "snoozed_until",
+                    "type": "TIMESTAMP"
+                },
+                {
+                    "name": "custom_attributes",
+                    "type": "JSONB",
+                    "default": "{}"
+                },
+                {
+                    "name": "assignee_last_seen_at",
+                    "type": "TIMESTAMP"
+                },
+                {
+                    "name": "first_reply_created_at",
+                    "type": "TIMESTAMP"
+                },
+                {
+                    "name": "priority",
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "sla_policy_id",
+                    "type": "BIGINT"
+                },
+                {
+                    "name": "waiting_since",
+                    "type": "TIMESTAMP"
+                },
+                {
+                    "name": "cached_label_list",
+                    "type": "TEXT"
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "index_conversations_on_account_id_and_display_id",
+                    "columns": [
+                        "account_id",
+                        "display_id"
+                    ],
+                    "unique": true
+                },
+                {
+                    "name": "index_conversations_on_id_and_account_id",
+                    "columns": [
+                        "account_id",
+                        "id"
+                    ]
+                },
+                {
+                    "name": "conv_acid_inbid_stat_asgnid_idx",
+                    "columns": [
+                        "account_id",
+                        "inbox_id",
+                        "status",
+                        "assignee_id"
+                    ]
+                },
+                {
+                    "name": "index_conversations_on_account_id",
+                    "columns": [
+                        "account_id"
+                    ]
+                },
+                {
+                    "name": "index_conversations_on_assignee_id_and_account_id",
+                    "columns": [
+                        "assignee_id",
+                        "account_id"
+                    ]
+                },
+                {
+                    "name": "index_conversations_on_campaign_id",
+                    "columns": [
+                        "campaign_id"
+                    ]
+                },
+                {
+                    "name": "index_conversations_on_contact_id",
+                    "columns": [
+                        "contact_id"
+                    ]
+                },
+                {
+                    "name": "index_conversations_on_contact_inbox_id",
+                    "columns": [
+                        "contact_inbox_id"
+                    ]
+                },
+                {
+                    "name": "index_conversations_on_first_reply_created_at",
+                    "columns": [
+                        "first_reply_created_at"
+                    ]
+                },
+                {
+                    "name": "index_conversations_on_inbox_id",
+                    "columns": [
+                        "inbox_id"
+                    ]
+                },
+                {
+                    "name": "index_conversations_on_priority",
+                    "columns": [
+                        "priority"
+                    ]
+                },
+                {
+                    "name": "index_conversations_on_status_and_account_id",
+                    "columns": [
+                        "status",
+                        "account_id"
+                    ]
+                },
+                {
+                    "name": "index_conversations_on_status_and_priority",
+                    "columns": [
+                        "status",
+                        "priority"
+                    ]
+                },
+                {
+                    "name": "index_conversations_on_team_id",
+                    "columns": [
+                        "team_id"
+                    ]
+                },
+                {
+                    "name": "index_conversations_on_uuid",
+                    "columns": [
+                        "uuid"
+                    ],
+                    "unique": true
+                },
+                {
+                    "name": "index_conversations_on_waiting_since",
+                    "columns": [
+                        "waiting_since"
+                    ]
+                }
+            ],
+            "foreign_keys": [
+                {
+                    "column": "account_id",
+                    "references": "accounts(id)"
+                },
+                {
+                    "column": "inbox_id",
+                    "references": "inboxes(id)"
+                },
+                {
+                    "column": "contact_id",
+                    "references": "contacts(id)"
+                }
+            ]
+        },
+        {
+            "name": "messages",
+            "description": "Tin nhắn trong cuộc hội thoại",
+            "category": "conversation",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "SERIAL",
+                    "primary_key": true
+                },
+                {
+                    "name": "content",
+                    "type": "TEXT"
+                },
+                {
+                    "name": "account_id",
+                    "type": "INTEGER",
+                    "not_null": true
+                },
+                {
+                    "name": "inbox_id",
+                    "type": "INTEGER",
+                    "not_null": true
+                },
+                {
+                    "name": "conversation_id",
+                    "type": "INTEGER",
+                    "not_null": true
+                },
+                {
+                    "name": "message_type",
+                    "type": "INTEGER",
+                    "not_null": true
+                },
+                {
+                    "name": "created_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "updated_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "private",
+                    "type": "BOOLEAN",
+                    "default": false,
+                    "not_null": true
+                },
+                {
+                    "name": "status",
+                    "type": "INTEGER",
+                    "default": 0
+                },
+                {
+                    "name": "source_id",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "content_type",
+                    "type": "INTEGER",
+                    "default": 0,
+                    "not_null": true
+                },
+                {
+                    "name": "content_attributes",
+                    "type": "JSON",
+                    "default": "{}"
+                },
+                {
+                    "name": "sender_type",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "sender_id",
+                    "type": "BIGINT"
+                },
+                {
+                    "name": "external_source_ids",
+                    "type": "JSONB",
+                    "default": "{}"
+                },
+                {
+                    "name": "additional_attributes",
+                    "type": "JSONB",
+                    "default": "{}"
+                },
+                {
+                    "name": "processed_message_content",
+                    "type": "TEXT"
+                },
+                {
+                    "name": "sentiment",
+                    "type": "JSONB",
+                    "default": "{}"
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "idx_messages_account_content_created",
+                    "columns": [
+                        "account_id",
+                        "content_type",
+                        "created_at"
+                    ]
+                },
+                {
+                    "name": "index_messages_on_account_created_type",
+                    "columns": [
+                        "account_id",
+                        "created_at",
+                        "message_type"
+                    ]
+                },
+                {
+                    "name": "index_messages_on_account_id_and_inbox_id",
+                    "columns": [
+                        "account_id",
+                        "inbox_id"
+                    ]
+                },
+                {
+                    "name": "index_messages_on_account_id",
+                    "columns": [
+                        "account_id"
+                    ]
+                },
+                {
+                    "name": "index_messages_on_content",
+                    "columns": [
+                        "content"
+                    ],
+                    "type": "gin",
+                    "opclass": "gin_trgm_ops"
+                },
+                {
+                    "name": "index_messages_on_conversation_account_type_created",
+                    "columns": [
+                        "conversation_id",
+                        "account_id",
+                        "message_type",
+                        "created_at"
+                    ]
+                },
+                {
+                    "name": "index_messages_on_conversation_id",
+                    "columns": [
+                        "conversation_id"
+                    ]
+                },
+                {
+                    "name": "index_messages_on_created_at",
+                    "columns": [
+                        "created_at"
+                    ]
+                },
+                {
+                    "name": "index_messages_on_inbox_id",
+                    "columns": [
+                        "inbox_id"
+                    ]
+                },
+                {
+                    "name": "index_messages_on_sender_type_and_sender_id",
+                    "columns": [
+                        "sender_type",
+                        "sender_id"
+                    ]
+                },
+                {
+                    "name": "index_messages_on_source_id",
+                    "columns": [
+                        "source_id"
+                    ]
+                }
+            ],
+            "foreign_keys": [
+                {
+                    "column": "account_id",
+                    "references": "accounts(id)"
+                },
+                {
+                    "column": "inbox_id",
+                    "references": "inboxes(id)"
+                },
+                {
+                    "column": "conversation_id",
+                    "references": "conversations(id)"
+                }
+            ]
+        },
+        {
+            "name": "contacts",
+            "description": "Danh bạ khách hàng",
+            "category": "conversation",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "SERIAL",
+                    "primary_key": true
+                },
+                {
+                    "name": "name",
+                    "type": "VARCHAR",
+                    "default": ""
+                },
+                {
+                    "name": "email",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "phone_number",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "account_id",
+                    "type": "INTEGER",
+                    "not_null": true
+                },
+                {
+                    "name": "created_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "updated_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "additional_attributes",
+                    "type": "JSONB",
+                    "default": "{}"
+                },
+                {
+                    "name": "identifier",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "custom_attributes",
+                    "type": "JSONB",
+                    "default": "{}"
+                },
+                {
+                    "name": "last_activity_at",
+                    "type": "TIMESTAMP"
+                },
+                {
+                    "name": "contact_type",
+                    "type": "INTEGER",
+                    "default": 0
+                },
+                {
+                    "name": "middle_name",
+                    "type": "VARCHAR",
+                    "default": ""
+                },
+                {
+                    "name": "last_name",
+                    "type": "VARCHAR",
+                    "default": ""
+                },
+                {
+                    "name": "location",
+                    "type": "VARCHAR",
+                    "default": ""
+                },
+                {
+                    "name": "country_code",
+                    "type": "VARCHAR",
+                    "default": ""
+                },
+                {
+                    "name": "blocked",
+                    "type": "BOOLEAN",
+                    "default": false,
+                    "not_null": true
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "index_contacts_on_lower_email_account_id",
+                    "columns": [
+                        "lower(email)",
+                        "account_id"
+                    ]
+                },
+                {
+                    "name": "index_contacts_on_account_id_and_contact_type",
+                    "columns": [
+                        "account_id",
+                        "contact_type"
+                    ]
+                },
+                {
+                    "name": "index_contacts_on_nonempty_fields",
+                    "columns": [
+                        "account_id",
+                        "email",
+                        "phone_number",
+                        "identifier"
+                    ],
+                    "where": "((email <> '') OR (phone_number <> '') OR (identifier <> ''))"
+                },
+                {
+                    "name": "index_contacts_on_account_id_and_last_activity_at",
+                    "columns": [
+                        "account_id",
+                        "last_activity_at"
+                    ],
+                    "order": "DESC NULLS LAST"
+                },
+                {
+                    "name": "index_contacts_on_account_id",
+                    "columns": [
+                        "account_id"
+                    ]
+                },
+                {
+                    "name": "index_resolved_contact_account_id",
+                    "columns": [
+                        "account_id"
+                    ],
+                    "where": "((email <> '') OR (phone_number <> '') OR (identifier <> ''))"
+                },
+                {
+                    "name": "index_contacts_on_blocked",
+                    "columns": [
+                        "blocked"
+                    ]
+                },
+                {
+                    "name": "uniq_email_per_account_contact",
+                    "columns": [
+                        "email",
+                        "account_id"
+                    ],
+                    "unique": true
+                },
+                {
+                    "name": "uniq_identifier_per_account_contact",
+                    "columns": [
+                        "identifier",
+                        "account_id"
+                    ],
+                    "unique": true
+                },
+                {
+                    "name": "index_contacts_on_name_email_phone_number_identifier",
+                    "columns": [
+                        "name",
+                        "email",
+                        "phone_number",
+                        "identifier"
+                    ],
+                    "type": "gin",
+                    "opclass": "gin_trgm_ops"
+                },
+                {
+                    "name": "index_contacts_on_phone_number_and_account_id",
+                    "columns": [
+                        "phone_number",
+                        "account_id"
+                    ]
+                }
+            ],
+            "foreign_keys": [
+                {
+                    "column": "account_id",
+                    "references": "accounts(id)"
+                }
+            ]
+        },
+        {
+            "name": "inboxes",
+            "description": "Hộp thư đến",
+            "category": "channel",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "SERIAL",
+                    "primary_key": true
+                },
+                {
+                    "name": "channel_id",
+                    "type": "INTEGER",
+                    "not_null": true
+                },
+                {
+                    "name": "account_id",
+                    "type": "INTEGER",
+                    "not_null": true
+                },
+                {
+                    "name": "name",
+                    "type": "VARCHAR",
+                    "not_null": true
+                },
+                {
+                    "name": "created_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "updated_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "channel_type",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "enable_auto_assignment",
+                    "type": "BOOLEAN",
+                    "default": true
+                },
+                {
+                    "name": "greeting_enabled",
+                    "type": "BOOLEAN",
+                    "default": false
+                },
+                {
+                    "name": "greeting_message",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "email_address",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "working_hours_enabled",
+                    "type": "BOOLEAN",
+                    "default": false
+                },
+                {
+                    "name": "out_of_office_message",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "timezone",
+                    "type": "VARCHAR",
+                    "default": "UTC"
+                },
+                {
+                    "name": "enable_email_collect",
+                    "type": "BOOLEAN",
+                    "default": true
+                },
+                {
+                    "name": "csat_survey_enabled",
+                    "type": "BOOLEAN",
+                    "default": false
+                },
+                {
+                    "name": "allow_messages_after_resolved",
+                    "type": "BOOLEAN",
+                    "default": true
+                },
+                {
+                    "name": "auto_assignment_config",
+                    "type": "JSONB",
+                    "default": "{}"
+                },
+                {
+                    "name": "lock_to_single_conversation",
+                    "type": "BOOLEAN",
+                    "default": false,
+                    "not_null": true
+                },
+                {
+                    "name": "portal_id",
+                    "type": "BIGINT"
+                },
+                {
+                    "name": "sender_name_type",
+                    "type": "INTEGER",
+                    "default": 0,
+                    "not_null": true
+                },
+                {
+                    "name": "business_name",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "csat_config",
+                    "type": "JSONB",
+                    "default": "{}",
+                    "not_null": true
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "index_inboxes_on_account_id",
+                    "columns": [
+                        "account_id"
+                    ]
+                },
+                {
+                    "name": "index_inboxes_on_channel_id_and_channel_type",
+                    "columns": [
+                        "channel_id",
+                        "channel_type"
+                    ]
+                },
+                {
+                    "name": "index_inboxes_on_portal_id",
+                    "columns": [
+                        "portal_id"
+                    ]
+                }
+            ],
+            "foreign_keys": [
+                {
+                    "column": "account_id",
+                    "references": "accounts(id)"
+                },
+                {
+                    "column": "portal_id",
+                    "references": "portals(id)"
+                }
+            ]
+        },
+        {
+            "name": "captain_assistants",
+            "description": "AI Assistant",
+            "category": "ai",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "BIGSERIAL",
+                    "primary_key": true
+                },
+                {
+                    "name": "name",
+                    "type": "VARCHAR",
+                    "not_null": true
+                },
+                {
+                    "name": "account_id",
+                    "type": "BIGINT",
+                    "not_null": true
+                },
+                {
+                    "name": "description",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "created_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "updated_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "config",
+                    "type": "JSONB",
+                    "default": "{}",
+                    "not_null": true
+                },
+                {
+                    "name": "response_guidelines",
+                    "type": "JSONB",
+                    "default": "[]"
+                },
+                {
+                    "name": "guardrails",
+                    "type": "JSONB",
+                    "default": "[]"
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "index_captain_assistants_on_account_id",
+                    "columns": [
+                        "account_id"
+                    ]
+                }
+            ],
+            "foreign_keys": [
+                {
+                    "column": "account_id",
+                    "references": "accounts(id)"
+                }
+            ]
+        },
+        {
+            "name": "captain_assistant_responses",
+            "description": "Phản hồi AI",
+            "category": "ai",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "BIGSERIAL",
+                    "primary_key": true
+                },
+                {
+                    "name": "question",
+                    "type": "VARCHAR",
+                    "not_null": true
+                },
+                {
+                    "name": "answer",
+                    "type": "TEXT",
+                    "not_null": true
+                },
+                {
+                    "name": "embedding",
+                    "type": "VECTOR(1536)"
+                },
+                {
+                    "name": "assistant_id",
+                    "type": "BIGINT",
+                    "not_null": true
+                },
+                {
+                    "name": "documentable_id",
+                    "type": "BIGINT"
+                },
+                {
+                    "name": "account_id",
+                    "type": "BIGINT",
+                    "not_null": true
+                },
+                {
+                    "name": "created_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "updated_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "status",
+                    "type": "INTEGER",
+                    "default": 1,
+                    "not_null": true
+                },
+                {
+                    "name": "documentable_type",
+                    "type": "VARCHAR"
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "index_captain_assistant_responses_on_account_id",
+                    "columns": [
+                        "account_id"
+                    ]
+                },
+                {
+                    "name": "index_captain_assistant_responses_on_assistant_id",
+                    "columns": [
+                        "assistant_id"
+                    ]
+                },
+                {
+                    "name": "idx_cap_asst_resp_on_documentable",
+                    "columns": [
+                        "documentable_id",
+                        "documentable_type"
+                    ]
+                },
+                {
+                    "name": "vector_idx_knowledge_entries_embedding",
+                    "columns": [
+                        "embedding"
+                    ],
+                    "type": "ivfflat"
+                },
+                {
+                    "name": "index_captain_assistant_responses_on_status",
+                    "columns": [
+                        "status"
+                    ]
+                }
+            ],
+            "foreign_keys": [
+                {
+                    "column": "assistant_id",
+                    "references": "captain_assistants(id)"
+                },
+                {
+                    "column": "account_id",
+                    "references": "accounts(id)"
+                }
+            ]
+        },
+        {
+            "name": "portals",
+            "description": "Portal hỗ trợ",
+            "category": "knowledge",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "BIGSERIAL",
+                    "primary_key": true
+                },
+                {
+                    "name": "account_id",
+                    "type": "INTEGER",
+                    "not_null": true
+                },
+                {
+                    "name": "name",
+                    "type": "VARCHAR",
+                    "not_null": true
+                },
+                {
+                    "name": "slug",
+                    "type": "VARCHAR",
+                    "not_null": true
+                },
+                {
+                    "name": "custom_domain",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "color",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "homepage_link",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "page_title",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "header_text",
+                    "type": "TEXT"
+                },
+                {
+                    "name": "created_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "updated_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "config",
+                    "type": "JSONB",
+                    "default": "{\"allowed_locales\": [\"en\"]}"
+                },
+                {
+                    "name": "archived",
+                    "type": "BOOLEAN",
+                    "default": false
+                },
+                {
+                    "name": "channel_web_widget_id",
+                    "type": "BIGINT"
+                },
+                {
+                    "name": "ssl_settings",
+                    "type": "JSONB",
+                    "default": "{}",
+                    "not_null": true
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "index_portals_on_channel_web_widget_id",
+                    "columns": [
+                        "channel_web_widget_id"
+                    ]
+                },
+                {
+                    "name": "index_portals_on_custom_domain",
+                    "columns": [
+                        "custom_domain"
+                    ],
+                    "unique": true
+                },
+                {
+                    "name": "index_portals_on_slug",
+                    "columns": [
+                        "slug"
+                    ],
+                    "unique": true
+                }
+            ],
+            "foreign_keys": [
+                {
+                    "column": "account_id",
+                    "references": "accounts(id)"
+                }
+            ]
+        },
+        {
+            "name": "articles",
+            "description": "Bài viết",
+            "category": "knowledge",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "BIGSERIAL",
+                    "primary_key": true
+                },
+                {
+                    "name": "account_id",
+                    "type": "INTEGER",
+                    "not_null": true
+                },
+                {
+                    "name": "portal_id",
+                    "type": "INTEGER",
+                    "not_null": true
+                },
+                {
+                    "name": "category_id",
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "folder_id",
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "title",
+                    "type": "VARCHAR"
+                },
+                {
+                    "name": "description",
+                    "type": "TEXT"
+                },
+                {
+                    "name": "content",
+                    "type": "TEXT"
+                },
+                {
+                    "name": "status",
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "views",
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "created_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "updated_at",
+                    "type": "TIMESTAMP",
+                    "not_null": true
+                },
+                {
+                    "name": "author_id",
+                    "type": "BIGINT"
+                },
+                {
+                    "name": "associated_article_id",
+                    "type": "BIGINT"
+                },
+                {
+                    "name": "meta",
+                    "type": "JSONB",
+                    "default": "{}"
+                },
+                {
+                    "name": "slug",
+                    "type": "VARCHAR",
+                    "not_null": true
+                },
+                {
+                    "name": "position",
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "locale",
+                    "type": "VARCHAR",
+                    "default": "en",
+                    "not_null": true
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "index_articles_on_account_id",
+                    "columns": [
+                        "account_id"
+                    ]
+                },
+                {
+                    "name": "index_articles_on_associated_article_id",
+                    "columns": [
+                        "associated_article_id"
+                    ]
+                },
+                {
+                    "name": "index_articles_on_author_id",
+                    "columns": [
+                        "author_id"
+                    ]
+                },
+                {
+                    "name": "index_articles_on_portal_id",
+                    "columns": [
+                        "portal_id"
+                    ]
+                },
+                {
+                    "name": "index_articles_on_slug",
+                    "columns": [
+                        "slug"
+                    ],
+                    "unique": true
+                },
+                {
+                    "name": "index_articles_on_status",
+                    "columns": [
+                        "status"
+                    ]
+                },
+                {
+                    "name": "index_articles_on_views",
+                    "columns": [
+                        "views"
+                    ]
+                }
+            ],
+            "foreign_keys": [
+                {
+                    "column": "account_id",
+                    "references": "accounts(id)"
+                },
+                {
+                    "column": "portal_id",
+                    "references": "portals(id)"
+                }
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "from_table": "accounts",
+            "to_table": "users",
+            "through": "account_users",
+            "type": "many_to_many"
+        },
+        {
+            "from_table": "accounts",
+            "to_table": "conversations",
+            "type": "one_to_many"
+        },
+        {
+            "from_table": "conversations",
+            "to_table": "messages",
+            "type": "one_to_many"
+        },
+        {
+            "from_table": "contacts",
+            "to_table": "conversations",
+            "type": "one_to_many"
+        },
+        {
+            "from_table": "inboxes",
+            "to_table": "conversations",
+            "type": "one_to_many"
+        },
+        {
+            "from_table": "inboxes",
+            "to_table": "messages",
+            "type": "one_to_many"
+        },
+        {
+            "from_table": "captain_assistants",
+            "to_table": "captain_assistant_responses",
+            "type": "one_to_many"
+        },
+        {
+            "from_table": "portals",
+            "to_table": "articles",
+            "type": "one_to_many"
+        }
+    ],
+    "categories": {
+        "core": "Core System Tables",
+        "conversation": "Conversation Management",
+        "channel": "Channel Integrations",
+        "ai": "AI & Automation",
+        "knowledge": "Knowledge Base",
+        "organization": "Organization & Tagging",
+        "analytics": "Analytics & Reporting",
+        "configuration": "Configuration & Settings",
+        "campaigns": "Campaigns & Marketing",
+        "notifications": "Notifications & Communication",
+        "sla": "SLA & Workflow Management",
+        "ui": "UI & Dashboard",
+        "copilot": "Copilot & AI Chat",
+        "notes": "Notes & Additional"
+    }
+}

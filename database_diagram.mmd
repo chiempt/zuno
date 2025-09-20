@@ -1,0 +1,642 @@
+erDiagram
+    %% Core System Tables
+    ACCOUNTS {
+        serial id PK
+        varchar name
+        timestamp created_at
+        timestamp updated_at
+        integer locale
+        varchar domain
+        varchar support_email
+        bigint feature_flags
+        integer auto_resolve_duration
+        jsonb limits
+        jsonb custom_attributes
+        integer status
+        jsonb internal_attributes
+        jsonb settings
+    }
+
+    USERS {
+        serial id PK
+        varchar provider
+        varchar uid
+        varchar encrypted_password
+        varchar reset_password_token
+        timestamp reset_password_sent_at
+        timestamp remember_created_at
+        integer sign_in_count
+        timestamp current_sign_in_at
+        timestamp last_sign_in_at
+        varchar current_sign_in_ip
+        varchar last_sign_in_ip
+        varchar confirmation_token
+        timestamp confirmed_at
+        timestamp confirmation_sent_at
+        varchar unconfirmed_email
+        varchar name
+        varchar display_name
+        varchar email
+        json tokens
+        timestamp created_at
+        timestamp updated_at
+        varchar pubsub_token
+        integer availability
+        jsonb ui_settings
+        jsonb custom_attributes
+        varchar type
+        text message_signature
+    }
+
+    ACCOUNT_USERS {
+        bigserial id PK
+        bigint account_id FK
+        bigint user_id FK
+        integer role
+        bigint inviter_id
+        timestamp created_at
+        timestamp updated_at
+        timestamp active_at
+        integer availability
+        boolean auto_offline
+        bigint custom_role_id
+        bigint agent_capacity_policy_id
+    }
+
+    %% Conversation Management
+    CONVERSATIONS {
+        serial id PK
+        integer account_id FK
+        integer inbox_id FK
+        integer status
+        integer assignee_id
+        timestamp created_at
+        timestamp updated_at
+        bigint contact_id FK
+        integer display_id
+        timestamp contact_last_seen_at
+        timestamp agent_last_seen_at
+        jsonb additional_attributes
+        bigint contact_inbox_id FK
+        uuid uuid
+        varchar identifier
+        timestamp last_activity_at
+        bigint team_id FK
+        bigint campaign_id FK
+        timestamp snoozed_until
+        jsonb custom_attributes
+        timestamp assignee_last_seen_at
+        timestamp first_reply_created_at
+        integer priority
+        bigint sla_policy_id FK
+        timestamp waiting_since
+        text cached_label_list
+    }
+
+    MESSAGES {
+        serial id PK
+        text content
+        integer account_id FK
+        integer inbox_id FK
+        integer conversation_id FK
+        integer message_type
+        timestamp created_at
+        timestamp updated_at
+        boolean private
+        integer status
+        varchar source_id
+        integer content_type
+        json content_attributes
+        varchar sender_type
+        bigint sender_id
+        jsonb external_source_ids
+        jsonb additional_attributes
+        text processed_message_content
+        jsonb sentiment
+    }
+
+    CONTACTS {
+        serial id PK
+        varchar name
+        varchar email
+        varchar phone_number
+        integer account_id FK
+        timestamp created_at
+        timestamp updated_at
+        jsonb additional_attributes
+        varchar identifier
+        jsonb custom_attributes
+        timestamp last_activity_at
+        integer contact_type
+        varchar middle_name
+        varchar last_name
+        varchar location
+        varchar country_code
+        boolean blocked
+    }
+
+    CONTACT_INBOXES {
+        bigserial id PK
+        bigint contact_id FK
+        bigint inbox_id FK
+        varchar source_id
+        timestamp created_at
+        timestamp updated_at
+        boolean hmac_verified
+        varchar pubsub_token
+    }
+
+    %% Channel Integrations
+    INBOXES {
+        serial id PK
+        integer channel_id
+        integer account_id FK
+        varchar name
+        timestamp created_at
+        timestamp updated_at
+        varchar channel_type
+        boolean enable_auto_assignment
+        boolean greeting_enabled
+        varchar greeting_message
+        varchar email_address
+        boolean working_hours_enabled
+        varchar out_of_office_message
+        varchar timezone
+        boolean enable_email_collect
+        boolean csat_survey_enabled
+        boolean allow_messages_after_resolved
+        jsonb auto_assignment_config
+        boolean lock_to_single_conversation
+        bigint portal_id FK
+        integer sender_name_type
+        varchar business_name
+        jsonb csat_config
+    }
+
+    %% AI & Automation
+    CAPTAIN_ASSISTANTS {
+        bigserial id PK
+        varchar name
+        bigint account_id FK
+        varchar description
+        timestamp created_at
+        timestamp updated_at
+        jsonb config
+        jsonb response_guidelines
+        jsonb guardrails
+    }
+
+    CAPTAIN_ASSISTANT_RESPONSES {
+        bigserial id PK
+        varchar question
+        text answer
+        vector embedding
+        bigint assistant_id FK
+        bigint documentable_id
+        bigint account_id FK
+        timestamp created_at
+        timestamp updated_at
+        integer status
+        varchar documentable_type
+    }
+
+    CAPTAIN_DOCUMENTS {
+        bigserial id PK
+        varchar name
+        varchar external_link
+        text content
+        bigint assistant_id FK
+        bigint account_id FK
+        timestamp created_at
+        timestamp updated_at
+        integer status
+        jsonb metadata
+    }
+
+    CAPTAIN_INBOXES {
+        bigserial id PK
+        bigint captain_assistant_id FK
+        bigint inbox_id FK
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    %% Knowledge Base
+    PORTALS {
+        bigserial id PK
+        integer account_id FK
+        varchar name
+        varchar slug
+        varchar custom_domain
+        varchar color
+        varchar homepage_link
+        varchar page_title
+        text header_text
+        timestamp created_at
+        timestamp updated_at
+        jsonb config
+        boolean archived
+        bigint channel_web_widget_id FK
+        jsonb ssl_settings
+    }
+
+    ARTICLES {
+        bigserial id PK
+        integer account_id FK
+        integer portal_id FK
+        integer category_id FK
+        integer folder_id FK
+        varchar title
+        text description
+        text content
+        integer status
+        integer views
+        timestamp created_at
+        timestamp updated_at
+        bigint author_id FK
+        bigint associated_article_id FK
+        jsonb meta
+        varchar slug
+        integer position
+        varchar locale
+    }
+
+    CATEGORIES {
+        bigserial id PK
+        integer account_id FK
+        integer portal_id FK
+        varchar name
+        text description
+        integer position
+        timestamp created_at
+        timestamp updated_at
+        varchar locale
+        varchar slug
+        bigint parent_category_id FK
+        bigint associated_category_id FK
+        varchar icon
+    }
+
+    %% Organization & Tagging
+    TEAMS {
+        bigserial id PK
+        varchar name
+        text description
+        boolean allow_auto_assign
+        bigint account_id FK
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    TEAM_MEMBERS {
+        bigserial id PK
+        bigint team_id FK
+        bigint user_id FK
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    LABELS {
+        bigserial id PK
+        varchar title
+        text description
+        varchar color
+        boolean show_on_sidebar
+        bigint account_id FK
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    TAGS {
+        serial id PK
+        varchar name
+        integer taggings_count
+    }
+
+    TAGGINGS {
+        serial id PK
+        integer tag_id FK
+        varchar taggable_type
+        integer taggable_id
+        varchar tagger_type
+        integer tagger_id
+        varchar context
+        timestamp created_at
+    }
+
+    %% Notifications & Communication
+    NOTIFICATIONS {
+        bigserial id PK
+        bigint account_id FK
+        bigint user_id FK
+        integer notification_type
+        varchar primary_actor_type
+        bigint primary_actor_id
+        varchar secondary_actor_type
+        bigint secondary_actor_id
+        timestamp read_at
+        timestamp created_at
+        timestamp updated_at
+        timestamp snoozed_until
+        timestamp last_activity_at
+        jsonb meta
+    }
+
+    WEBHOOKS {
+        bigserial id PK
+        integer account_id FK
+        integer inbox_id FK
+        varchar url
+        timestamp created_at
+        timestamp updated_at
+        integer webhook_type
+        jsonb subscriptions
+    }
+
+    %% SLA & Workflow Management
+    SLA_POLICIES {
+        bigserial id PK
+        varchar name
+        float first_response_time_threshold
+        float next_response_time_threshold
+        boolean only_during_business_hours
+        bigint account_id FK
+        timestamp created_at
+        timestamp updated_at
+        varchar description
+        float resolution_time_threshold
+    }
+
+    APPLIED_SLAS {
+        bigserial id PK
+        bigint account_id FK
+        bigint sla_policy_id FK
+        bigint conversation_id FK
+        timestamp created_at
+        timestamp updated_at
+        integer sla_status
+    }
+
+    SLA_EVENTS {
+        bigserial id PK
+        bigint applied_sla_id FK
+        bigint conversation_id FK
+        bigint account_id FK
+        bigint sla_policy_id FK
+        bigint inbox_id FK
+        integer event_type
+        jsonb meta
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    %% Assignment & Capacity Management
+    ASSIGNMENT_POLICIES {
+        bigserial id PK
+        bigint account_id FK
+        varchar name
+        text description
+        integer assignment_order
+        integer conversation_priority
+        integer fair_distribution_limit
+        integer fair_distribution_window
+        boolean enabled
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    INBOX_ASSIGNMENT_POLICIES {
+        bigserial id PK
+        bigint inbox_id FK
+        bigint assignment_policy_id FK
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    AGENT_CAPACITY_POLICIES {
+        bigserial id PK
+        bigint account_id FK
+        varchar name
+        text description
+        jsonb exclusion_rules
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    INBOX_CAPACITY_LIMITS {
+        bigserial id PK
+        bigint agent_capacity_policy_id FK
+        bigint inbox_id FK
+        integer conversation_limit
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    LEAVES {
+        bigserial id PK
+        bigint account_id FK
+        bigint user_id FK
+        date start_date
+        date end_date
+        integer leave_type
+        integer status
+        text reason
+        bigint approved_by_id FK
+        timestamp approved_at
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    %% Campaigns & Marketing
+    CAMPAIGNS {
+        bigserial id PK
+        integer display_id
+        varchar title
+        text description
+        text message
+        integer sender_id FK
+        boolean enabled
+        bigint account_id FK
+        bigint inbox_id FK
+        jsonb trigger_rules
+        timestamp created_at
+        timestamp updated_at
+        integer campaign_type
+        integer campaign_status
+        jsonb audience
+        timestamp scheduled_at
+        boolean trigger_only_during_business_hours
+        jsonb template_params
+    }
+
+    %% Automation & Bots
+    AGENT_BOTS {
+        bigserial id PK
+        varchar name
+        varchar description
+        varchar outgoing_url
+        timestamp created_at
+        timestamp updated_at
+        bigint account_id FK
+        integer bot_type
+        jsonb bot_config
+    }
+
+    AGENT_BOT_INBOXES {
+        bigserial id PK
+        integer inbox_id FK
+        integer agent_bot_id FK
+        integer status
+        timestamp created_at
+        timestamp updated_at
+        integer account_id FK
+    }
+
+    AUTOMATION_RULES {
+        bigserial id PK
+        bigint account_id FK
+        varchar name
+        text description
+        varchar event_name
+        jsonb conditions
+        jsonb actions
+        timestamp created_at
+        timestamp updated_at
+        boolean active
+    }
+
+    MACROS {
+        bigserial id PK
+        bigint account_id FK
+        varchar name
+        integer visibility
+        bigint created_by_id FK
+        bigint updated_by_id FK
+        jsonb actions
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    %% Copilot & AI Chat
+    COPILOT_THREADS {
+        bigserial id PK
+        varchar title
+        bigint user_id FK
+        bigint account_id FK
+        timestamp created_at
+        timestamp updated_at
+        integer assistant_id FK
+    }
+
+    COPILOT_MESSAGES {
+        bigserial id PK
+        bigint copilot_thread_id FK
+        bigint account_id FK
+        jsonb message
+        timestamp created_at
+        timestamp updated_at
+        integer message_type
+    }
+
+    %% Notes & Additional
+    NOTES {
+        bigserial id PK
+        text content
+        bigint account_id FK
+        bigint contact_id FK
+        bigint user_id FK
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    PLATFORM_APPS {
+        bigserial id PK
+        varchar name
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    PLATFORM_APP_PERMISSIBLES {
+        bigserial id PK
+        bigint platform_app_id FK
+        varchar permissible_type
+        bigint permissible_id
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    %% Relationships
+    ACCOUNTS ||--o{ ACCOUNT_USERS : "has many"
+    USERS ||--o{ ACCOUNT_USERS : "has many"
+    ACCOUNTS ||--o{ CONVERSATIONS : "has many"
+    ACCOUNTS ||--o{ CONTACTS : "has many"
+    ACCOUNTS ||--o{ INBOXES : "has many"
+    ACCOUNTS ||--o{ CAPTAIN_ASSISTANTS : "has many"
+    ACCOUNTS ||--o{ PORTALS : "has many"
+    ACCOUNTS ||--o{ TEAMS : "has many"
+    ACCOUNTS ||--o{ LABELS : "has many"
+    ACCOUNTS ||--o{ NOTIFICATIONS : "has many"
+    ACCOUNTS ||--o{ WEBHOOKS : "has many"
+    ACCOUNTS ||--o{ SLA_POLICIES : "has many"
+    ACCOUNTS ||--o{ APPLIED_SLAS : "has many"
+    ACCOUNTS ||--o{ ASSIGNMENT_POLICIES : "has many"
+    ACCOUNTS ||--o{ AGENT_CAPACITY_POLICIES : "has many"
+    ACCOUNTS ||--o{ CAMPAIGNS : "has many"
+    ACCOUNTS ||--o{ AGENT_BOTS : "has many"
+    ACCOUNTS ||--o{ AUTOMATION_RULES : "has many"
+    ACCOUNTS ||--o{ MACROS : "has many"
+    ACCOUNTS ||--o{ COPILOT_THREADS : "has many"
+    ACCOUNTS ||--o{ COPILOT_MESSAGES : "has many"
+    ACCOUNTS ||--o{ NOTES : "has many"
+
+    CONVERSATIONS ||--o{ MESSAGES : "has many"
+    CONVERSATIONS ||--o{ APPLIED_SLAS : "has many"
+    CONVERSATIONS ||--o{ SLA_EVENTS : "has many"
+    CONVERSATIONS ||--o{ NOTIFICATIONS : "has many"
+
+    INBOXES ||--o{ CONVERSATIONS : "has many"
+    INBOXES ||--o{ MESSAGES : "has many"
+    INBOXES ||--o{ CONTACT_INBOXES : "has many"
+    INBOXES ||--o{ INBOX_ASSIGNMENT_POLICIES : "has many"
+    INBOXES ||--o{ INBOX_CAPACITY_LIMITS : "has many"
+    INBOXES ||--o{ WEBHOOKS : "has many"
+    INBOXES ||--o{ CAMPAIGNS : "has many"
+    INBOXES ||--o{ AGENT_BOT_INBOXES : "has many"
+    INBOXES ||--o{ CAPTAIN_INBOXES : "has many"
+
+    CONTACTS ||--o{ CONVERSATIONS : "has many"
+    CONTACTS ||--o{ CONTACT_INBOXES : "has many"
+    CONTACTS ||--o{ NOTES : "has many"
+
+    CAPTAIN_ASSISTANTS ||--o{ CAPTAIN_ASSISTANT_RESPONSES : "has many"
+    CAPTAIN_ASSISTANTS ||--o{ CAPTAIN_DOCUMENTS : "has many"
+    CAPTAIN_ASSISTANTS ||--o{ CAPTAIN_INBOXES : "has many"
+
+    PORTALS ||--o{ ARTICLES : "has many"
+    PORTALS ||--o{ CATEGORIES : "has many"
+    PORTALS ||--o{ INBOXES : "has many"
+
+    ARTICLES ||--o{ CATEGORIES : "belongs to"
+    CATEGORIES ||--o{ CATEGORIES : "parent/child"
+
+    TEAMS ||--o{ TEAM_MEMBERS : "has many"
+    USERS ||--o{ TEAM_MEMBERS : "has many"
+
+    TAGS ||--o{ TAGGINGS : "has many"
+
+    SLA_POLICIES ||--o{ APPLIED_SLAS : "has many"
+    SLA_POLICIES ||--o{ SLA_EVENTS : "has many"
+
+    ASSIGNMENT_POLICIES ||--o{ INBOX_ASSIGNMENT_POLICIES : "has many"
+
+    AGENT_CAPACITY_POLICIES ||--o{ INBOX_CAPACITY_LIMITS : "has many"
+    AGENT_CAPACITY_POLICIES ||--o{ ACCOUNT_USERS : "has many"
+
+    USERS ||--o{ LEAVES : "has many"
+    USERS ||--o{ COPILOT_THREADS : "has many"
+    USERS ||--o{ NOTES : "has many"
+    USERS ||--o{ NOTIFICATIONS : "has many"
+
+    COPILOT_THREADS ||--o{ COPILOT_MESSAGES : "has many"
+
+    PLATFORM_APPS ||--o{ PLATFORM_APP_PERMISSIBLES : "has many"
