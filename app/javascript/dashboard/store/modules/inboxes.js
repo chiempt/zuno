@@ -257,6 +257,15 @@ export const actions = {
       throw error;
     }
   },
+  generateZaloQRCode: async ({ commit }, params) => {
+    try {
+      // Gọi API để generate QR code từ Zalo
+      const response = await InboxesAPI.generateZaloQRCode(params);
+      return response.data;
+    } catch (error) {
+      return throwErrorMessage(error);
+    }
+  },
   ...channelActions,
   // TODO: Extract other create channel methods to separate files to reduce file size
   // - createChannel

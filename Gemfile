@@ -74,6 +74,8 @@ gem 'vite_rails'
 # metrics on heroku
 gem 'barnes'
 
+gem 'execjs'
+
 ##--- gems for authentication & authorization ---##
 gem 'devise', '>= 4.9.4'
 gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_password', branch: 'chatwoot'

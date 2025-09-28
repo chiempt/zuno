@@ -19,7 +19,7 @@ export default {
         return {
             channelName: '',
             imei: '',
-            userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1',
+            userAgent: navigator.userAgent || 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1',
             proxy: '',
             qrCode: '',
             qrCodeExpiresAt: null,
@@ -81,7 +81,7 @@ export default {
             uiFlags: 'inboxes/getUIFlags',
         }),
         qrCodeUrl() {
-            return this.qrCode ? `data:image/png;base64,${this.qrCode}` : null;
+            return this.qrCode ? `${this.qrCode}` : null;
         },
         qrCodeTimeLeft() {
             if (!this.qrCodeExpiresAt) return 0;
@@ -154,21 +154,25 @@ export default {
 
             this.isGeneratingQR = true;
             try {
-                // TODO: Implement actual QR code generation API call
-                // For now, we'll simulate with a placeholder
+                // Gọi API để generate QR code từ Zalo SDK
                 const response = await this.$store.dispatch('inboxes/generateZaloQRCode', {
                     imei: this.imei,
                     userAgent: this.userAgent,
                 });
 
-                this.qrCode = response.qr_code;
-                this.qrCodeExpiresAt = response.expires_at;
+                if (response.success) {
+                    this.qrCode = response.qr_code;
+                    // Sử dụng expires_at từ API response
+                    this.qrCodeExpiresAt = response.expires_at;
 
-                // Restart timer for new QR code
-                this.startQRCodeTimer();
+                    // Restart timer for new QR code
+                    this.startQRCodeTimer();
+                } else {
+                    throw new Error(response.error || 'Failed to generate QR code');
+                }
             } catch (error) {
                 this.showAlert(
-                    error?.response?.data?.message ||
+                    error?.response?.data?.error || error.message ||
                     this.$t('INBOX_MGMT.ADD.ZALO_PERSONAL.QR_GENERATION_ERROR')
                 );
             } finally {

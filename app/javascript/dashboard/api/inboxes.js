@@ -32,6 +32,13 @@ class Inboxes extends CacheEnabledApiClient {
   syncTemplates(inboxId) {
     return axios.post(`${this.url}/${inboxId}/sync_templates`);
   }
+
+  generateZaloQRCode(params) {
+    return axios.post(`${this.url}/zalo_personal/generate_qr`, {
+      imei: params.imei,
+      user_agent: params.userAgent,
+    });
+  }
 }
 
 export default new Inboxes();
