@@ -1,0 +1,431 @@
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/io-console-0.6.0/ext/io/console
+/Users/chiempham/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+checking for termios.h... yes
+checking for cfmakeraw() in termios.h... yes
+checking for sys/ioctl.h... yes
+checking for HAVE_RUBY_FIBER_SCHEDULER_H... yes
+creating Makefile
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/io-console-0.6.0/ext/io/console
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-cu70d0 sitelibdir\=./.gem.20250928-9357-cu70d0 clean
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/io-console-0.6.0/ext/io/console
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-cu70d0 sitelibdir\=./.gem.20250928-9357-cu70d0
+compiling console.c
+console.c:301:23: warning: 'tied_io_for_writing' is deprecated: rb_io_get_write_io [-Wdeprecated-declarations]
+  301 |     VALUE wio = fptr->tied_io_for_writing;
+      |                       ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:192:5: note: 'tied_io_for_writing' has been explicitly marked deprecated here
+  192 |     RBIMPL_ATTR_DEPRECATED(("rb_io_get_write_io"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:303:28: warning: 'fd' is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  303 |     if (!wio) return fptr->fd;
+      |                            ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:153:5: note: 'fd' has been explicitly marked deprecated here
+  153 |     RBIMPL_ATTR_DEPRECATED(("rb_io_descriptor"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:305:19: warning: 'fd' is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  305 |     return ofptr->fd;
+      |                   ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:153:5: note: 'fd' has been explicitly marked deprecated here
+  153 |     RBIMPL_ATTR_DEPRECATED(("rb_io_descriptor"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:322:13: warning: 'fd' is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  322 |     fd[0] = GetReadFD(fptr);
+      |             ^
+console.c:296:34: note: expanded from macro 'GetReadFD'
+  296 | #define GetReadFD(fptr) ((fptr)->fd)
+      |                                  ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:153:5: note: 'fd' has been explicitly marked deprecated here
+  153 |     RBIMPL_ATTR_DEPRECATED(("rb_io_descriptor"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:346:33: warning: 'fd' is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  346 |     if (fd[0] != -1 && fd[0] == GetReadFD(fptr)) {
+      |                                 ^
+console.c:296:34: note: expanded from macro 'GetReadFD'
+  296 | #define GetReadFD(fptr) ((fptr)->fd)
+      |                                  ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:153:5: note: 'fd' has been explicitly marked deprecated here
+  153 |     RBIMPL_ATTR_DEPRECATED(("rb_io_descriptor"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:443:10: warning: 'fd' is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  443 |     fd = GetReadFD(fptr);
+      |          ^
+console.c:296:34: note: expanded from macro 'GetReadFD'
+  296 | #define GetReadFD(fptr) ((fptr)->fd)
+      |                                  ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:153:5: note: 'fd' has been explicitly marked deprecated here
+  153 |     RBIMPL_ATTR_DEPRECATED(("rb_io_descriptor"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:444:27: warning: 'pathv' is deprecated: rb_io_path [-Wdeprecated-declarations]
+  444 |     if (!getattr(fd, &t)) sys_fail_fptr(fptr);
+      |                           ^
+console.c:90:53: note: expanded from macro 'sys_fail_fptr'
+   90 | #define sys_fail_fptr(fptr) rb_sys_fail_str((fptr)->pathv)
+      |                                                     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:169:5: note: 'pathv' has been explicitly marked deprecated here
+  169 |     RBIMPL_ATTR_DEPRECATED(("rb_io_path"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:446:27: warning: 'pathv' is deprecated: rb_io_path [-Wdeprecated-declarations]
+  446 |     if (!setattr(fd, &t)) sys_fail_fptr(fptr);
+      |                           ^
+console.c:90:53: note: expanded from macro 'sys_fail_fptr'
+   90 | #define sys_fail_fptr(fptr) rb_sys_fail_str((fptr)->pathv)
+      |                                                     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:169:5: note: 'pathv' has been explicitly marked deprecated here
+  169 |     RBIMPL_ATTR_DEPRECATED(("rb_io_path"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:486:10: warning: 'fd' is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  486 |     fd = GetReadFD(fptr);
+      |          ^
+console.c:296:34: note: expanded from macro 'GetReadFD'
+  296 | #define GetReadFD(fptr) ((fptr)->fd)
+      |                                  ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:153:5: note: 'fd' has been explicitly marked deprecated here
+  153 |     RBIMPL_ATTR_DEPRECATED(("rb_io_descriptor"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:487:27: warning: 'pathv' is deprecated: rb_io_path [-Wdeprecated-declarations]
+  487 |     if (!getattr(fd, &t)) sys_fail_fptr(fptr);
+      |                           ^
+console.c:90:53: note: expanded from macro 'sys_fail_fptr'
+   90 | #define sys_fail_fptr(fptr) rb_sys_fail_str((fptr)->pathv)
+      |                                                     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:169:5: note: 'pathv' has been explicitly marked deprecated here
+  169 |     RBIMPL_ATTR_DEPRECATED(("rb_io_path"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:489:27: warning: 'pathv' is deprecated: rb_io_path [-Wdeprecated-declarations]
+  489 |     if (!setattr(fd, &t)) sys_fail_fptr(fptr);
+      |                           ^
+console.c:90:53: note: expanded from macro 'sys_fail_fptr'
+   90 | #define sys_fail_fptr(fptr) rb_sys_fail_str((fptr)->pathv)
+      |                                                     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:169:5: note: 'pathv' has been explicitly marked deprecated here
+  169 |     RBIMPL_ATTR_DEPRECATED(("rb_io_path"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:645:10: warning: 'fd' is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  645 |     fd = GetReadFD(fptr);
+      |          ^
+console.c:296:34: note: expanded from macro 'GetReadFD'
+  296 | #define GetReadFD(fptr) ((fptr)->fd)
+      |                                  ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:153:5: note: 'fd' has been explicitly marked deprecated here
+  153 |     RBIMPL_ATTR_DEPRECATED(("rb_io_descriptor"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:646:27: warning: 'pathv' is deprecated: rb_io_path [-Wdeprecated-declarations]
+  646 |     if (!getattr(fd, &t)) sys_fail_fptr(fptr);
+      |                           ^
+console.c:90:53: note: expanded from macro 'sys_fail_fptr'
+   90 | #define sys_fail_fptr(fptr) rb_sys_fail_str((fptr)->pathv)
+      |                                                     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:169:5: note: 'pathv' has been explicitly marked deprecated here
+  169 |     RBIMPL_ATTR_DEPRECATED(("rb_io_path"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:651:27: warning: 'pathv' is deprecated: rb_io_path [-Wdeprecated-declarations]
+  651 |     if (!setattr(fd, &t)) sys_fail_fptr(fptr);
+      |                           ^
+console.c:90:53: note: expanded from macro 'sys_fail_fptr'
+   90 | #define sys_fail_fptr(fptr) rb_sys_fail_str((fptr)->pathv)
+      |                                                     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:169:5: note: 'pathv' has been explicitly marked deprecated here
+  169 |     RBIMPL_ATTR_DEPRECATED(("rb_io_path"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:671:10: warning: 'fd' is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  671 |     fd = GetReadFD(fptr);
+      |          ^
+console.c:296:34: note: expanded from macro 'GetReadFD'
+  296 | #define GetReadFD(fptr) ((fptr)->fd)
+      |                                  ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:153:5: note: 'fd' has been explicitly marked deprecated here
+  153 |     RBIMPL_ATTR_DEPRECATED(("rb_io_descriptor"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:672:27: warning: 'pathv' is deprecated: rb_io_path [-Wdeprecated-declarations]
+  672 |     if (!getattr(fd, &t)) sys_fail_fptr(fptr);
+      |                           ^
+console.c:90:53: note: expanded from macro 'sys_fail_fptr'
+   90 | #define sys_fail_fptr(fptr) rb_sys_fail_str((fptr)->pathv)
+      |                                                     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:169:5: note: 'pathv' has been explicitly marked deprecated here
+  169 |     RBIMPL_ATTR_DEPRECATED(("rb_io_path"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:755:10: warning: 'fd' is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  755 |     fd = GetReadFD(fptr);
+      |          ^
+console.c:296:34: note: expanded from macro 'GetReadFD'
+  296 | #define GetReadFD(fptr) ((fptr)->fd)
+      |                                  ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:153:5: note: 'fd' has been explicitly marked deprecated here
+  153 |     RBIMPL_ATTR_DEPRECATED(("rb_io_descriptor"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:756:27: warning: 'pathv' is deprecated: rb_io_path [-Wdeprecated-declarations]
+  756 |     if (!getattr(fd, &t)) sys_fail_fptr(fptr);
+      |                           ^
+console.c:90:53: note: expanded from macro 'sys_fail_fptr'
+   90 | #define sys_fail_fptr(fptr) rb_sys_fail_str((fptr)->pathv)
+      |                                                     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:169:5: note: 'pathv' has been explicitly marked deprecated here
+  169 |     RBIMPL_ATTR_DEPRECATED(("rb_io_path"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:779:10: warning: 'fd' is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  779 |     fd = GetReadFD(fptr);
+      |          ^
+console.c:296:34: note: expanded from macro 'GetReadFD'
+  296 | #define GetReadFD(fptr) ((fptr)->fd)
+      |                                  ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:153:5: note: 'fd' has been explicitly marked deprecated here
+  153 |     RBIMPL_ATTR_DEPRECATED(("rb_io_descriptor"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:780:27: warning: 'pathv' is deprecated: rb_io_path [-Wdeprecated-declarations]
+  780 |     if (!setattr(fd, &r)) sys_fail_fptr(fptr);
+      |                           ^
+console.c:90:53: note: expanded from macro 'sys_fail_fptr'
+   90 | #define sys_fail_fptr(fptr) rb_sys_fail_str((fptr)->pathv)
+      |                                                     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:169:5: note: 'pathv' has been explicitly marked deprecated here
+  169 |     RBIMPL_ATTR_DEPRECATED(("rb_io_path"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:822:31: warning: 'pathv' is deprecated: rb_io_path [-Wdeprecated-declarations]
+  822 |     if (!getwinsize(fd, &ws)) sys_fail_fptr(fptr);
+      |                               ^
+console.c:90:53: note: expanded from macro 'sys_fail_fptr'
+   90 | #define sys_fail_fptr(fptr) rb_sys_fail_str((fptr)->pathv)
+      |                                                     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:169:5: note: 'pathv' has been explicitly marked deprecated here
+  169 |     RBIMPL_ATTR_DEPRECATED(("rb_io_path"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:869:31: warning: 'pathv' is deprecated: rb_io_path [-Wdeprecated-declarations]
+  869 |     if (!setwinsize(fd, &ws)) sys_fail_fptr(fptr);
+      |                               ^
+console.c:90:53: note: expanded from macro 'sys_fail_fptr'
+   90 | #define sys_fail_fptr(fptr) rb_sys_fail_str((fptr)->pathv)
+      |                                                     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:169:5: note: 'pathv' has been explicitly marked deprecated here
+  169 |     RBIMPL_ATTR_DEPRECATED(("rb_io_path"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:942:10: warning: 'fd' is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  942 |     fd = GetReadFD(fptr);
+      |          ^
+console.c:296:34: note: expanded from macro 'GetReadFD'
+  296 | #define GetReadFD(fptr) ((fptr)->fd)
+      |                                  ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:153:5: note: 'fd' has been explicitly marked deprecated here
+  153 |     RBIMPL_ATTR_DEPRECATED(("rb_io_descriptor"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:944:32: warning: 'pathv' is deprecated: rb_io_path [-Wdeprecated-declarations]
+  944 |     if (tcflush(fd, TCIFLUSH)) sys_fail_fptr(fptr);
+      |                                ^
+console.c:90:53: note: expanded from macro 'sys_fail_fptr'
+   90 | #define sys_fail_fptr(fptr) rb_sys_fail_str((fptr)->pathv)
+      |                                                     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:169:5: note: 'pathv' has been explicitly marked deprecated here
+  169 |     RBIMPL_ATTR_DEPRECATED(("rb_io_path"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:967:32: warning: 'pathv' is deprecated: rb_io_path [-Wdeprecated-declarations]
+  967 |     if (tcflush(fd, TCOFLUSH)) sys_fail_fptr(fptr);
+      |                                ^
+console.c:90:53: note: expanded from macro 'sys_fail_fptr'
+   90 | #define sys_fail_fptr(fptr) rb_sys_fail_str((fptr)->pathv)
+      |                                                     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:169:5: note: 'pathv' has been explicitly marked deprecated here
+  169 |     RBIMPL_ATTR_DEPRECATED(("rb_io_path"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:991:11: warning: 'fd' is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  991 |     fd1 = GetReadFD(fptr);
+      |           ^
+console.c:296:34: note: expanded from macro 'GetReadFD'
+  296 | #define GetReadFD(fptr) ((fptr)->fd)
+      |                                  ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:153:5: note: 'fd' has been explicitly marked deprecated here
+  153 |     RBIMPL_ATTR_DEPRECATED(("rb_io_descriptor"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:994:30: warning: 'pathv' is deprecated: rb_io_path [-Wdeprecated-declarations]
+  994 |         if (tcflush(fd1, TCIFLUSH)) sys_fail_fptr(fptr);
+      |                                     ^
+console.c:90:53: note: expanded from macro 'sys_fail_fptr'
+   90 | #define sys_fail_fptr(fptr) rb_sys_fail_str((fptr)->pathv)
+      |                                                     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:169:5: note: 'pathv' has been explicitly marked deprecated here
+  169 |     RBIMPL_ATTR_DEPRECATED(("rb_io_path"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:995:30: warning: 'pathv' is deprecated: rb_io_path [-Wdeprecated-declarations]
+  995 |         if (tcflush(fd2, TCOFLUSH)) sys_fail_fptr(fptr);
+      |                                     ^
+console.c:90:53: note: expanded from macro 'sys_fail_fptr'
+   90 | #define sys_fail_fptr(fptr) rb_sys_fail_str((fptr)->pathv)
+      |                                                     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:169:5: note: 'pathv' has been explicitly marked deprecated here
+  169 |     RBIMPL_ATTR_DEPRECATED(("rb_io_path"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:998:31: warning: 'pathv' is deprecated: rb_io_path [-Wdeprecated-declarations]
+  998 |         if (tcflush(fd1, TCIOFLUSH)) sys_fail_fptr(fptr);
+      |                                      ^
+console.c:90:53: note: expanded from macro 'sys_fail_fptr'
+   90 | #define sys_fail_fptr(fptr) rb_sys_fail_str((fptr)->pathv)
+      |                                                     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:169:5: note: 'pathv' has been explicitly marked deprecated here
+  169 |     RBIMPL_ATTR_DEPRECATED(("rb_io_path"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:1017:2: warning: 'pathv' is deprecated: rb_io_path [-Wdeprecated-declarations]
+ 1017 |         sys_fail_fptr(fptr);
+      |         ^
+console.c:90:53: note: expanded from macro 'sys_fail_fptr'
+   90 | #define sys_fail_fptr(fptr) rb_sys_fail_str((fptr)->pathv)
+      |                                                     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:169:5: note: 'pathv' has been explicitly marked deprecated here
+  169 |     RBIMPL_ATTR_DEPRECATED(("rb_io_path"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:1262:14: warning: 'tied_io_for_writing' is deprecated: rb_io_get_write_io [-Wdeprecated-declarations]
+ 1262 |         wio = fptr->tied_io_for_writing;
+      |                     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:192:5: note: 'tied_io_for_writing' has been explicitly marked deprecated here
+  192 |     RBIMPL_ATTR_DEPRECATED(("rb_io_get_write_io"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:1269:18: warning: 'fd' is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+ 1269 |         if (write(fptr->fd, query->qstr, strlen(query->qstr)) != -1) {
+      |                         ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:153:5: note: 'fd' has been explicitly marked deprecated here
+  153 |     RBIMPL_ATTR_DEPRECATED(("rb_io_descriptor"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:1272:12: warning: 'fd' is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+ 1272 |         if (fptr->fd == 0 &&
+      |                   ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:153:5: note: 'fd' has been explicitly marked deprecated here
+  153 |     RBIMPL_ATTR_DEPRECATED(("rb_io_descriptor"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:1482:37: warning: 'fd' is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+ 1482 |             (!(fptr = RFILE(con)->fptr) || GetReadFD(fptr) == -1)) {
+      |                                            ^
+console.c:296:34: note: expanded from macro 'GetReadFD'
+  296 | #define GetReadFD(fptr) ((fptr)->fd)
+      |                                  ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:153:5: note: 'fd' has been explicitly marked deprecated here
+  153 |     RBIMPL_ATTR_DEPRECATED(("rb_io_descriptor"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:1535:8: warning: 'pathv' is deprecated: rb_io_path [-Wdeprecated-declarations]
+ 1535 |         fptr->pathv = rb_obj_freeze(rb_str_new2(CONSOLE_DEVICE));
+      |               ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:169:5: note: 'pathv' has been explicitly marked deprecated here
+  169 |     RBIMPL_ATTR_DEPRECATED(("rb_io_path"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+console.c:1542:8: warning: 'mode' is deprecated: rb_io_mode [-Wdeprecated-declarations]
+ 1542 |         fptr->mode |= FMODE_SYNC;
+      |               ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:157:5: note: 'mode' has been explicitly marked deprecated here
+  157 |     RBIMPL_ATTR_DEPRECATED(("rb_io_mode"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+36 warnings generated.
+linking shared-object io/console.bundle
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/io-console-0.6.0/ext/io/console
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-cu70d0 sitelibdir\=./.gem.20250928-9357-cu70d0 install
+/opt/homebrew/bin/ginstall -c -m 0755 console.bundle ./.gem.20250928-9357-cu70d0/io
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/io-console-0.6.0/ext/io/console
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-cu70d0 sitelibdir\=./.gem.20250928-9357-cu70d0 clean

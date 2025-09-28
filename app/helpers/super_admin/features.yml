@@ -86,6 +86,11 @@ line:
   description: 'Manage your Line customer interactions from Chatwoot.'
   enabled: true
   icon: 'icon-line-line'
+zalo_personal:
+  name: 'Line'
+  description: 'Manage your Zalo Personal customer interactions from Chatwoot.'
+  enabled: true
+  icon: 'icon-zalo-personal'
 
 # ------- OAuth & Authentication ------- #
 google:

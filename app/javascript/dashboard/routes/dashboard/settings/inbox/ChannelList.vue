@@ -7,6 +7,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 
 import ChannelItem from 'dashboard/components/widgets/ChannelItem.vue';
+import { watch } from 'vue';
 
 const { t } = useI18n();
 const router = useRouter();
@@ -30,6 +31,12 @@ const channelList = computed(() => {
       title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.FACEBOOK.TITLE'),
       description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.FACEBOOK.DESCRIPTION'),
       icon: 'i-woot-messenger',
+    },
+    {
+      key: 'zalo_personal',
+      title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.ZALO_PERSONAL.TITLE'),
+      description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.ZALO_PERSONAL.DESCRIPTION'),
+      icon: 'i-ri-chat-3-fill',
     },
     {
       key: 'whatsapp',
@@ -84,6 +91,8 @@ const channelList = computed(() => {
 
 const initializeEnabledFeatures = async () => {
   enabledFeatures.value = currentAccount.value.features;
+
+  console.log('enabledFeatures', enabledFeatures.value);
 };
 
 const initChannelAuth = channel => {
@@ -101,16 +110,9 @@ onMounted(() => {
 
 <template>
   <div class="w-full p-8 overflow-auto">
-    <div
-      class="grid max-w-3xl grid-cols-1 xs:grid-cols-2 mx-0 gap-6 sm:grid-cols-3"
-    >
-      <ChannelItem
-        v-for="channel in channelList"
-        :key="channel.key"
-        :channel="channel"
-        :enabled-features="enabledFeatures"
-        @channel-item-click="initChannelAuth"
-      />
+    <div class="grid max-w-3xl grid-cols-1 xs:grid-cols-2 mx-0 gap-6 sm:grid-cols-3">
+      <ChannelItem v-for="channel in channelList" :key="channel.key" :channel="channel"
+        :enabled-features="enabledFeatures" @channel-item-click="initChannelAuth" />
     </div>
   </div>
 </template>

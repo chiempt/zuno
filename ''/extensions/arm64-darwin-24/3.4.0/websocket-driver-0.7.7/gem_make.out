@@ -1,0 +1,18 @@
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/websocket-driver-0.7.7/ext/websocket-driver
+/Users/chiempham/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/websocket-driver-0.7.7/ext/websocket-driver
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-kwhhba sitelibdir\=./.gem.20250928-9357-kwhhba clean
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/websocket-driver-0.7.7/ext/websocket-driver
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-kwhhba sitelibdir\=./.gem.20250928-9357-kwhhba
+compiling websocket_mask.c
+linking shared-object websocket_mask.bundle
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/websocket-driver-0.7.7/ext/websocket-driver
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-kwhhba sitelibdir\=./.gem.20250928-9357-kwhhba install
+/opt/homebrew/bin/ginstall -c -m 0755 websocket_mask.bundle ./.gem.20250928-9357-kwhhba
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/websocket-driver-0.7.7/ext/websocket-driver
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-kwhhba sitelibdir\=./.gem.20250928-9357-kwhhba clean

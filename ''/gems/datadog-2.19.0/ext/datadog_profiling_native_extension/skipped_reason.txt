@@ -1,0 +1,1 @@
+macOS is currently not supported by the Datadog Continuous Profiler. Get in touch with us if you're interested in profiling your app!

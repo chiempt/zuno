@@ -58,6 +58,7 @@ const isActive = computed(() => {
     'line',
     'instagram',
     'voice',
+    'zalo_personal',
   ].includes(key);
 });
 
@@ -76,12 +77,6 @@ const onItemClick = () => {
 </script>
 
 <template>
-  <ChannelSelector
-    :title="channel.title"
-    :description="channel.description"
-    :icon="channel.icon"
-    :is-coming-soon="isComingSoon"
-    :disabled="!isActive"
-    @click="onItemClick"
-  />
+  <ChannelSelector :title="channel.title" :description="channel.description" :icon="channel.icon"
+    :is-coming-soon="isComingSoon" :disabled="!isActive" @click="onItemClick" />
 </template>

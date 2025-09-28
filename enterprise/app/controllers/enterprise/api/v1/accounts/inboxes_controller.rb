@@ -17,6 +17,8 @@ module Enterprise::Api::V1::Accounts::InboxesController
     case permitted_params[:channel][:type]
     when 'voice'
       Channel::Voice
+    when 'zalo_personal'
+      Channel::ZaloPersonal
     else
       super
     end
@@ -26,6 +28,8 @@ module Enterprise::Api::V1::Accounts::InboxesController
     case permitted_params[:channel][:type]
     when 'voice'
       Current.account.voice_channels
+    when 'zalo_personal'
+      Current.account.zalo_personal_channels
     else
       super
     end

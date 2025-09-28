@@ -1,0 +1,18 @@
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/racc-1.8.1/ext/racc/cparse
+/Users/chiempham/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-e6dqoz sitelibdir\=./.gem.20250928-9357-e6dqoz clean
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-e6dqoz sitelibdir\=./.gem.20250928-9357-e6dqoz
+compiling cparse.c
+linking shared-object racc/cparse.bundle
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-e6dqoz sitelibdir\=./.gem.20250928-9357-e6dqoz install
+/opt/homebrew/bin/ginstall -c -m 0755 cparse.bundle ./.gem.20250928-9357-e6dqoz/racc
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-e6dqoz sitelibdir\=./.gem.20250928-9357-e6dqoz clean

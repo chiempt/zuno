@@ -1,0 +1,98 @@
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/stackprof-0.2.25/ext/stackprof
+/Users/chiempham/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+checking for rb_postponed_job_register_one()... yes
+checking for rb_profile_frames()... yes
+checking for rb_tracepoint_new()... yes
+checking for RUBY_INTERNAL_EVENT_NEWOBJ... yes
+creating Makefile
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/stackprof-0.2.25/ext/stackprof
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-74xfef sitelibdir\=./.gem.20250928-9357-74xfef clean
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/stackprof-0.2.25/ext/stackprof
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-74xfef sitelibdir\=./.gem.20250928-9357-74xfef
+compiling stackprof.c
+stackprof.c:208:30: warning: implicit conversion loses integer precision: 'long' to '__darwin_suseconds_t' (aka 'int') [-Wshorten-64-to-32]
+  208 |         timer.it_interval.tv_usec = NUM2LONG(interval);
+      |                                   ~ ^~~~~~~~~~~~~~~~~~
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/arithmetic/long.h:51:22: note: expanded from macro 'NUM2LONG'
+   51 | #define NUM2LONG     RB_NUM2LONG          /**< @old{RB_NUM2LONG} */
+      |                      ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/arithmetic/long.h:57:22: note: expanded from macro 'RB_NUM2LONG'
+   57 | #define RB_NUM2LONG  rb_num2long_inline   /**< @alias{rb_num2long_inline} */
+      |                      ^
+stackprof.c:760:2: warning: 'rb_postponed_job_register_one' is deprecated: use rb_postponed_job_preregister and rb_postponed_job_trigger [-Wdeprecated-declarations]
+  760 |         rb_postponed_job_register_one(0, stackprof_job_record_gc, (void*)0);
+      |         ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/debug.h:769:2: note: 'rb_postponed_job_register_one' has been explicitly marked deprecated here
+  769 |  RBIMPL_ATTR_DEPRECATED(("use rb_postponed_job_preregister and rb_postponed_job_trigger"))
+      |  ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+stackprof.c:763:13: warning: 'rb_postponed_job_register_one' is deprecated: use rb_postponed_job_preregister and rb_postponed_job_trigger [-Wdeprecated-declarations]
+  763 |             rb_postponed_job_register_one(0, stackprof_job_sample_and_record, (void*)0);
+      |             ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/debug.h:769:2: note: 'rb_postponed_job_register_one' has been explicitly marked deprecated here
+  769 |  RBIMPL_ATTR_DEPRECATED(("use rb_postponed_job_preregister and rb_postponed_job_trigger"))
+      |  ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+stackprof.c:769:13: warning: 'rb_postponed_job_register_one' is deprecated: use rb_postponed_job_preregister and rb_postponed_job_trigger [-Wdeprecated-declarations]
+  769 |             rb_postponed_job_register_one(0, stackprof_job_record_buffer, (void*)0);
+      |             ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/debug.h:769:2: note: 'rb_postponed_job_register_one' has been explicitly marked deprecated here
+  769 |  RBIMPL_ATTR_DEPRECATED(("use rb_postponed_job_preregister and rb_postponed_job_trigger"))
+      |  ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+stackprof.c:839:34: warning: implicit conversion loses integer precision: 'long' to '__darwin_suseconds_t' (aka 'int') [-Wshorten-64-to-32]
+  839 |             timer.it_interval.tv_usec = NUM2LONG(_stackprof.interval);
+      |                                       ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/arithmetic/long.h:51:22: note: expanded from macro 'NUM2LONG'
+   51 | #define NUM2LONG     RB_NUM2LONG          /**< @old{RB_NUM2LONG} */
+      |                      ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/arithmetic/long.h:57:22: note: expanded from macro 'RB_NUM2LONG'
+   57 | #define RB_NUM2LONG  rb_num2long_inline   /**< @alias{rb_num2long_inline} */
+      |                      ^
+stackprof.c:911:15: warning: 'rb_data_object_wrap_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  911 |     gc_hook = Data_Wrap_Struct(rb_cObject, stackprof_gc_mark, NULL, &_stackprof);
+      |               ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:199:5: note: expanded from macro 'Data_Wrap_Struct'
+  199 |     rb_data_object_wrap(                          \
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:363:31: note: expanded from macro 'rb_data_object_wrap'
+  363 | #define rb_data_object_wrap   RUBY_MACRO_SELECT(rb_data_object_wrap_2, RUBY_UNTYPED_DATA_WARNING)
+      |                               ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:50:35: note: expanded from macro 'RUBY_MACRO_SELECT'
+   50 | #define RUBY_MACRO_SELECT(x, y)   RBIMPL_MACRO_SELECT(x, y)
+      |                                   ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:49:35: note: expanded from macro 'RBIMPL_MACRO_SELECT'
+   49 | #define RBIMPL_MACRO_SELECT(x, y) x ## y
+      |                                   ^
+<scratch space>:121:1: note: expanded from here
+  121 | rb_data_object_wrap_1
+      | ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:361:31: note: expanded from macro 'rb_data_object_wrap_1'
+  361 | #define rb_data_object_wrap_1 rb_data_object_wrap_warning
+      |                               ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:277:1: note: 'rb_data_object_wrap_warning' has been explicitly marked deprecated here
+  277 | RBIMPL_ATTRSET_UNTYPED_DATA_FUNC()
+      | ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:47:5: note: expanded from macro 'RBIMPL_ATTRSET_UNTYPED_DATA_FUNC'
+   47 |     RBIMPL_ATTR_DEPRECATED(("by TypedData"))
+      |     ^
+/Users/chiempham/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/attr/deprecated.h:36:53: note: expanded from macro 'RBIMPL_ATTR_DEPRECATED'
+   36 | # define RBIMPL_ATTR_DEPRECATED(msg) __attribute__((__deprecated__ msg))
+      |                                                     ^
+6 warnings generated.
+linking shared-object stackprof/stackprof.bundle
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/stackprof-0.2.25/ext/stackprof
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-74xfef sitelibdir\=./.gem.20250928-9357-74xfef install
+/opt/homebrew/bin/ginstall -c -m 0755 stackprof.bundle ./.gem.20250928-9357-74xfef/stackprof
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/stackprof-0.2.25/ext/stackprof
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-74xfef sitelibdir\=./.gem.20250928-9357-74xfef clean

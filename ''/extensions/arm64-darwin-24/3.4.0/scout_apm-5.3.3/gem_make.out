@@ -1,0 +1,18 @@
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/scout_apm-5.3.3/ext/rusage
+/Users/chiempham/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/scout_apm-5.3.3/ext/rusage
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-2gkx2y sitelibdir\=./.gem.20250928-9357-2gkx2y clean
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/scout_apm-5.3.3/ext/rusage
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-2gkx2y sitelibdir\=./.gem.20250928-9357-2gkx2y
+compiling rusage.c
+linking shared-object rusage.bundle
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/scout_apm-5.3.3/ext/rusage
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-2gkx2y sitelibdir\=./.gem.20250928-9357-2gkx2y install
+/opt/homebrew/bin/ginstall -c -m 0755 rusage.bundle ./.gem.20250928-9357-2gkx2y
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/scout_apm-5.3.3/ext/rusage
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-2gkx2y sitelibdir\=./.gem.20250928-9357-2gkx2y clean

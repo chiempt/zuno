@@ -1,0 +1,19 @@
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/datadog-2.19.0/ext/libdatadog_api
+/Users/chiempham/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+WARN: Skipping build of libdatadog_api (issue setting up `libdatadog` gem). Some functionality will not be available.
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/datadog-2.19.0/ext/libdatadog_api
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-4iuii9 sitelibdir\=./.gem.20250928-9357-4iuii9 clean
+make: Nothing to be done for `clean'.
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/datadog-2.19.0/ext/libdatadog_api
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-4iuii9 sitelibdir\=./.gem.20250928-9357-4iuii9
+make: Nothing to be done for `all'.
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/datadog-2.19.0/ext/libdatadog_api
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-4iuii9 sitelibdir\=./.gem.20250928-9357-4iuii9 install
+make: Nothing to be done for `install'.
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/datadog-2.19.0/ext/libdatadog_api
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-4iuii9 sitelibdir\=./.gem.20250928-9357-4iuii9 clean
+make: Nothing to be done for `clean'.

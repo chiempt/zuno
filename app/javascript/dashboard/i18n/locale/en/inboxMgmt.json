@@ -344,6 +344,43 @@
           "ERROR_MESSAGE": "We were not able to create the voice channel"
         }
       },
+      "ZALO_PERSONAL": {
+        "TITLE": "Zalo Personal Channel",
+        "DESC": "Connect your personal Zalo account to start supporting customers.",
+        "CHANNEL_NAME": {
+          "LABEL": "Channel Name",
+          "PLACEHOLDER": "Enter your channel name (e.g. My Zalo Support)",
+          "ERROR": "Channel name is required"
+        },
+        "IMEI": {
+          "LABEL": "Device IMEI",
+          "PLACEHOLDER": "Enter your device IMEI",
+          "ERROR": "IMEI is required",
+          "REGENERATE": "Generate New"
+        },
+        "USER_AGENT": {
+          "LABEL": "User Agent",
+          "PLACEHOLDER": "Enter user agent string",
+          "ERROR": "User agent is required"
+        },
+        "PROXY": {
+          "LABEL": "Proxy Server",
+          "PLACEHOLDER": "Enter proxy server URL (optional)",
+          "HELP_TEXT": "Optional proxy server for Zalo API requests (e.g., http://proxy.example.com:8080)"
+        },
+        "QR_CODE": {
+          "TITLE": "Zalo QR Code",
+          "DESCRIPTION": "Scan this QR code with your Zalo app to connect your account.",
+          "TIME_LEFT": "Time left: {seconds} seconds",
+          "EXPIRED": "QR Code expired",
+          "GENERATING": "Generating QR code...",
+          "REGENERATE": "Generate New QR Code"
+        },
+        "SUBMIT_BUTTON": "Create Zalo Personal Channel",
+        "SUCCESS_MESSAGE": "Zalo Personal channel created successfully",
+        "ERROR_MESSAGE": "Failed to create Zalo Personal channel",
+        "QR_GENERATION_ERROR": "Failed to generate QR code"
+      },
       "API_CHANNEL": {
         "TITLE": "API Channel",
         "DESC": "Integrate with API channel and start supporting your customers.",
@@ -468,6 +505,10 @@
           "VOICE": {
             "TITLE": "Voice",
             "DESCRIPTION": "Integrate with Twilio Voice"
+          },
+          "ZALO_PERSONAL": {
+            "TITLE": "Zalo Personal",
+            "DESCRIPTION": "Connect your personal Zalo account"
           }
         }
       },
@@ -941,7 +982,8 @@
       "LINE": "Line",
       "API": "API Channel",
       "INSTAGRAM": "Instagram",
-      "VOICE": "Voice"
+      "VOICE": "Voice",
+      "ZALO_PERSONAL": "Zalo Personal"
     }
   }
 }

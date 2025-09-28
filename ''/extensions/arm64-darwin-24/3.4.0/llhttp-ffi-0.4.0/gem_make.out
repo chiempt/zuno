@@ -1,0 +1,8 @@
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/llhttp-ffi-0.4.0/ext
+/Users/chiempham/.rbenv/versions/3.4.4/bin/ruby -rrubygems /Users/chiempham/Project/self/chatwoot-custom/chatwoot/\'\'/gems/rake-13.2.1/exe/rake RUBYARCHDIR\=/Users/chiempham/Project/self/chatwoot-custom/chatwoot/\'\'/extensions/arm64-darwin-24/3.4.0/llhttp-ffi-0.4.0 RUBYLIBDIR\=/Users/chiempham/Project/self/chatwoot-custom/chatwoot/\'\'/extensions/arm64-darwin-24/3.4.0/llhttp-ffi-0.4.0
+clang -fexceptions -O -fno-omit-frame-pointer -fno-strict-aliasing   -o aarch64-darwin/llhttp/api.o -c ./llhttp/api.c
+mkdir -p aarch64-darwin/llhttp
+clang -fexceptions -O -fno-omit-frame-pointer -fno-strict-aliasing   -o aarch64-darwin/llhttp/http.o -c ./llhttp/http.c
+clang -fexceptions -O -fno-omit-frame-pointer -fno-strict-aliasing   -o aarch64-darwin/llhttp/llhttp.o -c ./llhttp/llhttp.c
+clang -fexceptions -O -fno-omit-frame-pointer -fno-strict-aliasing   -o aarch64-darwin/llhttp/llhttp_ext.o -c ./llhttp/llhttp_ext.c
+clang -bundle -o aarch64-darwin/libllhttp-ext.bundle aarch64-darwin/llhttp/api.o aarch64-darwin/llhttp/http.o aarch64-darwin/llhttp/llhttp.o aarch64-darwin/llhttp/llhttp_ext.o -fexceptions 

@@ -1,0 +1,18 @@
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/bindex-0.8.1/ext/skiptrace
+/Users/chiempham/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-h9vro4 sitelibdir\=./.gem.20250928-9357-h9vro4 clean
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-h9vro4 sitelibdir\=./.gem.20250928-9357-h9vro4
+compiling cruby.c
+linking shared-object skiptrace/internal/cruby.bundle
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-h9vro4 sitelibdir\=./.gem.20250928-9357-h9vro4 install
+/opt/homebrew/bin/ginstall -c -m 0755 cruby.bundle ./.gem.20250928-9357-h9vro4/skiptrace/internal
+
+current directory: /Users/chiempham/Project/self/chatwoot-custom/chatwoot/''/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20250928-9357-h9vro4 sitelibdir\=./.gem.20250928-9357-h9vro4 clean

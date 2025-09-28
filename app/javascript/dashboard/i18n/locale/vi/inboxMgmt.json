@@ -344,6 +344,43 @@
           "ERROR_MESSAGE": "We were not able to create the voice channel"
         }
       },
+      "ZALO_PERSONAL": {
+        "TITLE": "Kênh Zalo Cá Nhân",
+        "DESC": "Kết nối tài khoản Zalo cá nhân của bạn để bắt đầu hỗ trợ khách hàng.",
+        "CHANNEL_NAME": {
+          "LABEL": "Tên kênh",
+          "PLACEHOLDER": "Nhập tên kênh của bạn (ví dụ: Hỗ trợ Zalo của tôi)",
+          "ERROR": "Tên kênh là bắt buộc"
+        },
+        "IMEI": {
+          "LABEL": "IMEI thiết bị",
+          "PLACEHOLDER": "Nhập IMEI thiết bị của bạn",
+          "ERROR": "IMEI là bắt buộc",
+          "REGENERATE": "Tạo mới"
+        },
+        "USER_AGENT": {
+          "LABEL": "User Agent",
+          "PLACEHOLDER": "Nhập chuỗi user agent",
+          "ERROR": "User agent là bắt buộc"
+        },
+        "PROXY": {
+          "LABEL": "Máy chủ Proxy",
+          "PLACEHOLDER": "Nhập URL máy chủ proxy (tùy chọn)",
+          "HELP_TEXT": "Máy chủ proxy tùy chọn cho các yêu cầu API Zalo (ví dụ: http://proxy.example.com:8080)"
+        },
+        "QR_CODE": {
+          "TITLE": "Mã QR Zalo",
+          "DESCRIPTION": "Quét mã QR này bằng ứng dụng Zalo để kết nối tài khoản của bạn.",
+          "TIME_LEFT": "Thời gian còn lại: {seconds} giây",
+          "EXPIRED": "Mã QR đã hết hạn",
+          "GENERATING": "Đang tạo mã QR...",
+          "REGENERATE": "Tạo mã QR mới"
+        },
+        "SUBMIT_BUTTON": "Tạo kênh Zalo Cá Nhân",
+        "SUCCESS_MESSAGE": "Kênh Zalo Cá Nhân đã được tạo thành công",
+        "ERROR_MESSAGE": "Không thể tạo kênh Zalo Cá Nhân",
+        "QR_GENERATION_ERROR": "Không thể tạo mã QR"
+      },
       "API_CHANNEL": {
         "TITLE": "Kênh API",
         "DESC": "Tích hợp với kênh API và bắt đầu hỗ trợ khách hàng của bạn.",
@@ -468,6 +505,10 @@
           "VOICE": {
             "TITLE": "Voice",
             "DESCRIPTION": "Integrate with Twilio Voice"
+          },
+          "ZALO_PERSONAL": {
+            "TITLE": "Zalo Cá Nhân",
+            "DESCRIPTION": "Kết nối tài khoản Zalo cá nhân của bạn"
           }
         }
       },
@@ -941,7 +982,8 @@
       "LINE": "Line",
       "API": "Kênh API",
       "INSTAGRAM": "Instagram",
-      "VOICE": "Voice"
+      "VOICE": "Voice",
+      "ZALO_PERSONAL": "Zalo Cá Nhân"
     }
   }
 }
