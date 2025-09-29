@@ -135,11 +135,12 @@ export default {
                         },
                     }
                 );
-
-                this.showAlert(this.$t('INBOX_MGMT.ADD.ZALO_PERSONAL.SUCCESS_MESSAGE'));
-                router.push({
-                    name: 'settings_inboxes_page_channel_agents',
-                    params: { page: 'agents' },
+                router.replace({
+                    name: 'settings_inboxes_add_agents',
+                    params: {
+                        page: 'new',
+                        inbox_id: zaloChannel.id,
+                    },
                 });
             } catch (error) {
                 this.showAlert(

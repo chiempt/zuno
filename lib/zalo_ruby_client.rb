@@ -166,6 +166,8 @@ class ZaloRubyClient
     Rails.logger.info "Getting login info with version #{version} from: #{uri}"
     
     response = make_request(uri, request)
+
+    Rails.logger.info "Login info response: #{response.body}"
     
     if response.code == '200'
       data = JSON.parse(response.body)

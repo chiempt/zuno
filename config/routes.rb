@@ -194,12 +194,13 @@ Rails.application.routes.draw do
             delete :avatar, on: :member
             post :sync_templates, on: :member
             collection do
-              resources :zalo_personal, only: [] do
-                collection do
-                  post :generate_qr
-                  get :check_status
-                end
-              end
+          resources :zalo_personal, only: [] do
+            collection do
+              post :generate_qr
+              get :check_status
+              patch :update_settings
+            end
+          end
             end
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id do

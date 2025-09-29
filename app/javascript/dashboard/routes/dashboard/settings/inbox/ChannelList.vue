@@ -86,6 +86,12 @@ const channelList = computed(() => {
       description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.VOICE.DESCRIPTION'),
       icon: 'i-ri-phone-fill',
     },
+    {
+      key: 'zalo_personal',
+      title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.ZALO_PERSONAL.TITLE'),
+      description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.ZALO_PERSONAL.DESCRIPTION'),
+      icon: 'i-woot-zalo',
+    },
   ];
 });
 

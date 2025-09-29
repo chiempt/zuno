@@ -44,4 +44,37 @@ class Api::V1::Accounts::ZaloPersonalController < Api::V1::Accounts::BaseControl
       has_qr_code: false
     }
   end
+
+  def update_settings
+    begin
+      inbox_id = params[:inbox_id]
+      inbox = Current.account.inboxes.find(inbox_id)
+      
+      # Update channel settings
+      channel_params = params[:channel] || {}
+      
+      if channel_params[:user_agent].present?
+        inbox.channel.update!(user_agent: channel_params[:user_agent])
+      end
+      
+      if channel_params[:proxy].present?
+        inbox.channel.update!(proxy: channel_params[:proxy])
+      end
+      
+      if channel_params[:qr_code].present?
+        inbox.channel.update!(qr_code: channel_params[:qr_code])
+      end
+      
+      render json: {
+        success: true,
+        message: 'Zalo settings updated successfully'
+      }
+    rescue StandardError => e
+      Rails.logger.error "Zalo settings update error: #{e.message}"
+      render json: {
+        success: false,
+        error: e.message
+      }, status: :internal_server_error
+    end
+  end
 end

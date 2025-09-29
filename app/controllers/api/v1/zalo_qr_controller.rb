@@ -17,7 +17,6 @@ class Api::V1::ZaloQrController < ApplicationController
       # Generate QR code using Zalo service
       result = ZaloService.new(temp_channel).generate_qr_code
 
-      Rails.logger.info "QR code generated successfully: #{result}"
       render json: {
         success: true,
         qr_code: result['qr_code'],

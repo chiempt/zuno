@@ -39,6 +39,13 @@ class Inboxes extends CacheEnabledApiClient {
       user_agent: params.userAgent,
     });
   }
+
+  updateZaloSettings(inboxId, params) {
+    return axios.patch(`${this.url}/zalo_personal/update_settings`, {
+      inbox_id: inboxId,
+      channel: params,
+    });
+  }
 }
 
 export default new Inboxes();

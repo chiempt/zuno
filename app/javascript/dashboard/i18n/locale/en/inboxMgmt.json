@@ -376,6 +376,9 @@
           "GENERATING": "Generating QR code...",
           "REGENERATE": "Generate New QR Code"
         },
+        "CHANNEL": {
+          "LAST_UPDATED": "Channel last updated"
+        },
         "SUBMIT_BUTTON": "Create Zalo Personal Channel",
         "SUCCESS_MESSAGE": "Zalo Personal channel created successfully",
         "ERROR_MESSAGE": "Failed to create Zalo Personal channel",
