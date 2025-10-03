@@ -32,6 +32,17 @@ server:
 burn:
 	bundle && pnpm install
 
+clean:
+	rm -f ./.overmind.sock
+	rm -f tmp/pids/*.pid
+	lsof -ti:3000 | xargs kill -9 2>/dev/null || true
+	lsof -ti:3001 | xargs kill -9 2>/dev/null || true
+	lsof -ti:3002 | xargs kill -9 2>/dev/null || true
+	lsof -ti:3036 | xargs kill -9 2>/dev/null || true
+	pkill -f "node.*nest" 2>/dev/null || true
+	pkill -f "pnpm.*start:dev" 2>/dev/null || true
+	pkill -f "vite.*dev" 2>/dev/null || true
+
 run:
 	@if [ -f ./.overmind.sock ]; then \
 		echo "Overmind is already running. Use 'make force_run' to start a new instance."; \
@@ -39,15 +50,10 @@ run:
 		overmind start -f Procfile.dev; \
 	fi
 
-force_run:
-	rm -f ./.overmind.sock
-	rm -f tmp/pids/*.pid
+force_run: clean
 	overmind start -f Procfile.dev
 
-force_run_tunnel:
-	lsof -ti:3000 | xargs kill -9 2>/dev/null || true
-	rm -f ./.overmind.sock
-	rm -f tmp/pids/*.pid
+force_run_tunnel: clean
 	overmind start -f Procfile.tunnel
 
 debug:
@@ -59,4 +65,4 @@ debug_worker:
 docker: 
 	docker build -t $(APP_NAME) -f ./docker/Dockerfile .
 
-.PHONY: setup db_create db_migrate db_seed db_reset db console server burn docker run force_run force_run_tunnel debug debug_worker
+.PHONY: setup db_create db_migrate db_seed db_reset db console server burn clean docker run force_run force_run_tunnel debug debug_worker

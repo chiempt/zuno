@@ -2,3 +2,4 @@ backend: bin/rails s -p 3000
 # https://github.com/mperham/sidekiq/issues/3090#issuecomment-389748695
 worker: dotenv bundle exec sidekiq -C config/sidekiq.yml
 vite: bin/vite dev
+zalo-service: sh -c "cd zalo-persional && PORT=3001 pnpm run start:dev"
