@@ -1,21 +1,31 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { AppService } from './app.service';
 
 @Injectable()
 export class BootstrapService implements OnModuleInit {
   private readonly logger = new Logger(BootstrapService.name);
+  private readonly appService: AppService;
 
-  constructor(private readonly eventEmitter: EventEmitter2) {}
+  constructor(
+    private readonly eventEmitter: EventEmitter2,
+    appService: AppService,
+  ) {
+    this.appService = appService;
+  }
 
   async onModuleInit(): Promise<void> {
-    this.logger.log('🚀 Initializing Zalo Service Bootstrap...');
-
     try {
       // Setup global error handlers
       this.setupGlobalErrorHandlers();
 
       // Setup application lifecycle events
       this.setupLifecycleEvents();
+
+      // Initialize accounts
+      await this.appService.initializeAccounts();
+
+      //
 
       this.logger.log('✅ Bootstrap completed successfully');
     } catch (error) {

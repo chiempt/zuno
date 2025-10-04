@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { ZaloModule } from './zalo/zalo.module';
 import { CorsInterceptor } from './cors.interceptor';
 import { BootstrapService } from './bootstrap.service';
+import { ChannelZaloPersonalModule } from './channels/channel-zalo-personal.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { BootstrapService } from './bootstrap.service';
       logging: process.env.NODE_ENV === 'development',
     }),
     ZaloModule,
+    ChannelZaloPersonalModule,
   ],
   controllers: [AppController],
   providers: [

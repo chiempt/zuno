@@ -2,16 +2,29 @@
 #
 # Table name: channel_zalo_personal
 #
-#  id                :bigint           not null, primary key
-#  zalo_account_name :string           not null
-#  credentials       :jsonb
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  account_id        :integer          not null
+#  id                                                 :bigint           not null, primary key
+#  cookie(Zalo authentication cookies)                :jsonb
+#  imei(Device IMEI for Zalo authentication)          :string           not null
+#  name(Channel display name)                         :string           not null
+#  proxy(Proxy server URL for Zalo requests)          :string
+#  qr_code(Base64 encoded QR code for authentication) :text
+#  user_agent(User agent string for Zalo requests)    :string           not null
+#  zalo_account_name                                  :string(255)
+#  created_at                                         :datetime         not null
+#  updated_at                                         :datetime         not null
+#  account_id                                         :bigint           not null
 #
 # Indexes
 #
-#  index_channel_zalo_personal_on_account_id  (account_id)
+#  index_channel_zalo_personal_on_account_id           (account_id)
+#  index_channel_zalo_personal_on_account_id_and_name  (account_id,name)
+#  index_channel_zalo_personal_on_imei                 (imei) UNIQUE
+#  index_channel_zalo_personal_on_name                 (name)
+#  index_channel_zalo_personal_on_proxy                (proxy)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id)
 #
 
 class Channel::ZaloPersonal < ApplicationRecord

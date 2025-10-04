@@ -3,11 +3,15 @@ import {
   Logger,
   OnModuleInit,
   OnModuleDestroy,
+  Inject,
+  forwardRef,
 } from '@nestjs/common';
 import { Zalo, ThreadType, Credentials } from 'zca-js';
 import { EventEmitter } from 'events';
 import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
 import { join } from 'path';
+import { ChannelZaloPersonal } from 'src/channels/entities/channel-zalo-personal.entity';
+import { ZaloMessageHandlerService } from '../services/zalo-message-handler.service';
 
 export interface ZaloMessage {
   id: string;
@@ -39,6 +43,13 @@ export class ZaloService
   private qrData: ZaloQRData | null = null;
   private channelId: number | null = null;
   private messageHandler?: (message: any) => Promise<void>;
+
+  constructor(
+    @Inject(forwardRef(() => ZaloMessageHandlerService))
+    private readonly messageHandlerService: ZaloMessageHandlerService,
+  ) {
+    super();
+  }
 
   async onModuleInit() {
     this.logger.log('Initializing Zalo Service...');
@@ -115,7 +126,7 @@ export class ZaloService
           join(process.cwd(), 'credentials.json'),
           JSON.stringify(safeCredentials, null, 2),
         );
-        this.logger.log('✅ Credentials saved successfully');
+        this.logger.log('✅ Credentials saved successfully ');
       } catch (error) {
         this.logger.error('❌ Failed to save credentials:', error);
         // Try to save without cookies if there's an issue
@@ -169,15 +180,24 @@ export class ZaloService
   /**
    * Login with existing credentials (cookie-based login)
    */
-  async loginWithCredentials(credentials: Credentials): Promise<any> {
+  async loginWithCredentials(account: ChannelZaloPersonal): Promise<any> {
     try {
       this.logger.log('Starting login with existing credentials...');
-
+      this.logger.log('Account:', JSON.stringify(account, null, 2));
       // Use the login method from zca-js
-      this.api = await this.zalo.login(credentials);
+      this.api = await this.zalo.login({
+        cookie: account.cookie || [],
+        imei: account.imei,
+        userAgent: account.userAgent,
+      });
 
       if (this.api) {
         this.isConnected = true;
+        this.api.listener.start();
+
+        // Set up message listener
+        this.setupMessageListener();
+
         this.logger.log('✅ Successfully logged in with existing credentials');
         return this.api;
       } else {
@@ -261,8 +281,23 @@ export class ZaloService
       return;
     }
 
-    this.api.listener.on('message', (message: any) => {
+    this.api.listener.on('message', async (message: any) => {
       this.logger.log('Received message:', message);
+
+      try {
+        // Transform the message to our internal format and handle it
+        await this.messageHandlerService.onZaloMessageReceived({
+          senderId: message.senderId || message.userId,
+          threadId: message.threadId,
+          content: message.content,
+          messageId: message.id,
+          channelId: this.channelId,
+          messageType: message.messageType || 'text',
+          ...message,
+        });
+      } catch (error) {
+        this.logger.error('Error handling incoming message:', error);
+      }
     });
 
     this.api.listener.on('error', (error: any) => {

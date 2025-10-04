@@ -63,7 +63,5 @@ async function bootstrap() {
 
   await app.listen(3001);
   console.log('🚀 Zalo Personal Service running on http://localhost:3001');
-  console.log('🌍 CORS enabled for all origins with explicit middleware');
-  console.log('🔓 Referrer Policy set to no-referrer-when-downgrade');
 }
 bootstrap();
