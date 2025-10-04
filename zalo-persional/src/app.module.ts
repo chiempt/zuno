@@ -1,22 +1,35 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ZaloModule } from './zalo/zalo.module';
 import { CorsInterceptor } from './cors.interceptor';
-import { TestController } from './test.controller';
-import { MultiAccountManager } from './zalo/multi-account.manager';
-import { DatabaseService } from './core/database.service';
 import { BootstrapService } from './bootstrap.service';
 
 @Module({
-  imports: [ZaloModule],
-  controllers: [AppController, TestController],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.CHATWOOT_DB_HOST || 'localhost',
+      port: parseInt(process.env.CHATWOOT_DB_PORT || '5432'),
+      database: process.env.CHATWOOT_DB_NAME || 'chatwoot_dev',
+      username: process.env.CHATWOOT_DB_USER || 'postgres',
+      password: process.env.CHATWOOT_DB_PASSWORD || 'password',
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: false, // Don't auto-sync in production
+      logging: process.env.NODE_ENV === 'development',
+    }),
+    ZaloModule,
+  ],
+  controllers: [AppController],
   providers: [
     AppService,
     BootstrapService,
-    MultiAccountManager,
-    DatabaseService,
     {
       provide: APP_INTERCEPTOR,
       useClass: CorsInterceptor,

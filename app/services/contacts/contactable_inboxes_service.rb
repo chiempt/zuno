@@ -22,6 +22,8 @@ class Contacts::ContactableInboxesService
       api_contactable_inbox(inbox)
     when 'Channel::WebWidget'
       website_contactable_inbox(inbox)
+    when 'Channel::ZaloPersonal'
+      zalo_personal_contactable_inbox(inbox)
     end
   end
 
@@ -69,5 +71,11 @@ class Contacts::ContactableInboxesService
     when 'whatsapp'
       { source_id: "whatsapp:#{@contact.phone_number}", inbox: inbox }
     end
+  end
+
+  def zalo_personal_contactable_inbox(inbox)
+    # For Zalo Personal, we can create conversations for any contact
+    # Use contact ID as source_id since Zalo doesn't require specific phone/email
+    { source_id: @contact.id.to_s, inbox: inbox }
   end
 end

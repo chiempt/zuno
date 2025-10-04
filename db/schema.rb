@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_09_29_000004) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_29_000005) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -553,13 +553,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_29_000004) do
   create_table "channel_zalo_personal", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.string "name", null: false, comment: "Channel display name"
-    t.jsonb "cookie", default: [], null: false, comment: "Zalo authentication cookies"
+    t.jsonb "cookie", default: [], comment: "Zalo authentication cookies"
     t.string "imei", null: false, comment: "Device IMEI for Zalo authentication"
     t.string "user_agent", null: false, comment: "User agent string for Zalo requests"
     t.text "qr_code", comment: "Base64 encoded QR code for authentication"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "proxy", comment: "Proxy server URL for Zalo requests"
+    t.string "zalo_account_name", limit: 255
     t.index ["account_id", "name"], name: "index_channel_zalo_personal_on_account_id_and_name"
     t.index ["account_id"], name: "index_channel_zalo_personal_on_account_id"
     t.index ["imei"], name: "index_channel_zalo_personal_on_imei", unique: true

@@ -27,6 +27,13 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def create
+    Rails.logger.info "🔍 Creating channel with params: #{params.inspect}"
+    Rails.logger.info "🔍 Channel type?: #{params[:channel][:type]}"
+    Rails.logger.info "🔍 Channel data: #{params[:channel].inspect}"
+    Rails.logger.info "🔍 Cookie data: #{params[:channel][:cookie].inspect}"
+    Rails.logger.info "🔍 Cookie type: #{params[:channel][:cookie].class}"
+    Rails.logger.info "🔍 Cookie length: #{params[:channel][:cookie]&.length || 'nil'}"
+
     ActiveRecord::Base.transaction do
       channel = create_channel
       @inbox = Current.account.inboxes.build(
@@ -92,7 +99,14 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def create_channel
     return unless allowed_channel_types.include?(permitted_params[:channel][:type])
 
-    account_channels_method.create!(permitted_params(channel_type_from_params::EDITABLE_ATTRS)[:channel].except(:type))
+    channel_attrs = permitted_params(channel_type_from_params::EDITABLE_ATTRS)[:channel].except(:type)
+    Rails.logger.info "🔍 Channel attributes: #{channel_attrs.inspect}"
+    Rails.logger.info "🔍 EDITABLE_ATTRS: #{channel_type_from_params::EDITABLE_ATTRS}"
+    Rails.logger.info "🔍 Cookie after permit: #{channel_attrs[:cookie].inspect}"
+    Rails.logger.info "🔍 Cookie type after permit: #{channel_attrs[:cookie].class}"
+    Rails.logger.info "🔍 Cookie length after permit: #{channel_attrs[:cookie]&.length || 'nil'}"
+
+    account_channels_method.create!(channel_attrs)
   end
 
   def allowed_channel_types
@@ -158,10 +172,21 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     # We will remove this line after fixing https://linear.app/chatwoot/issue/CW-1567/null-value-passed-as-null-string-to-backend
     params.each { |k, v| params[k] = params[k] == 'null' ? nil : v }
 
-    params.permit(
-      *inbox_attributes,
-      channel: [:type, *channel_attributes]
-    )
+    # Special handling for zalo_personal channel
+    if params[:channel] && params[:channel][:type] == 'zalo_personal'
+      params.permit(
+        *inbox_attributes,
+        channel: [
+          :type, :name, :zalo_account_name, :imei, :user_agent, :proxy, :qr_code,
+          { cookie: [:key, :value, :domain, :path, :secure, :httpOnly, :hostOnly, :creation, :lastAccessed, :maxAge, :sameSite] }
+        ]
+      )
+    else
+      params.permit(
+        *inbox_attributes,
+        channel: [:type, *channel_attributes]
+      )
+    end
   end
 
   def channel_type_from_params

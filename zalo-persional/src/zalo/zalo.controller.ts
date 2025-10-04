@@ -37,7 +37,7 @@ export class ZaloController {
   async generateQRCode() {
     try {
       this.logger.log('🔄 Generating QR code...');
-      const qrData = await this.zaloService.generateQR();
+      const qrData = await this.zaloService.loginQR();
 
       return {
         success: true,
@@ -67,7 +67,7 @@ export class ZaloController {
   async getQRCode() {
     try {
       // Return cached QR data if available
-      const qrData = await this.zaloService.generateQR();
+      const qrData = await this.zaloService.getQRCodeBase64();
 
       return {
         success: true,

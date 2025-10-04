@@ -25,55 +25,14 @@ export default {
             qrCodeExpiresAt: null,
             qrCodeTimer: null,
             isGeneratingQR: false,
-            cookie: [
-                {
-                    "key": "_zlang",
-                    "value": "vn",
-                    "domain": "zalo.me",
-                    "path": "/",
-                    "hostOnly": false,
-                    "creation": "2025-07-18T10:03:46.707Z",
-                    "lastAccessed": "2025-07-18T10:03:47.044Z"
-                },
-                {
-                    "key": "zpsid",
-                    "value": "50pP.440708225.4.CMmYfvHgoI0Lneqwc6h98E4PknIWMluGh5Zx5KgMqQLC5PnPbMhLMlngoI0",
-                    "maxAge": 31536000,
-                    "domain": "zalo.me",
-                    "path": "/",
-                    "secure": true,
-                    "httpOnly": true,
-                    "hostOnly": false,
-                    "creation": "2025-07-18T10:03:46.707Z",
-                    "lastAccessed": "2025-07-18T10:03:47.044Z",
-                    "sameSite": "none"
-                },
-                {
-                    "key": "zpw_sek",
-                    "value": "68y-.440708225.a0.lK142RhMvu0xUgEQczRdWC7qWkkOxCMhxPEinkwcfkJqjQ_CrfxH-VFWaA_xwzgYnmWRc3yEcDN3r-MSmBxdW0",
-                    "maxAge": 604800,
-                    "domain": "chat.zalo.me",
-                    "path": "/",
-                    "secure": true,
-                    "httpOnly": true,
-                    "hostOnly": false,
-                    "creation": "2025-07-18T10:03:46.708Z",
-                    "lastAccessed": "2025-07-18T10:03:47.044Z",
-                    "sameSite": "lax"
-                },
-                {
-                    "key": "app.event.zalo.me",
-                    "value": "4414415304169739210",
-                    "domain": "zalo.me",
-                    "path": "/",
-                    "hostOnly": false,
-                    "creation": "2025-07-18T10:03:46.965Z",
-                    "lastAccessed": "2025-07-18T10:03:47.044Z"
-                }
-            ],
+            cookie: [],
             cookieExpiresAt: null,
             cookieTimer: null,
             isGeneratingCookie: false,
+            zaloServiceUrl: 'http://localhost:3001/zalo', // Use proxy to avoid CORS
+            pollingInterval: null,
+            isPollingQR: false,
+            zaloAccountName: '',
         };
     },
     computed: {
@@ -81,7 +40,7 @@ export default {
             uiFlags: 'inboxes/getUIFlags',
         }),
         qrCodeUrl() {
-            return this.qrCode ? `${this.qrCode}` : null;
+            return this.qrCode ? `data:image/png;base64,${this.qrCode}` : null;
         },
         qrCodeTimeLeft() {
             if (!this.qrCodeExpiresAt) return 0;
@@ -100,11 +59,11 @@ export default {
     },
     mounted() {
         this.generateIMEI();
-        this.generateQRCode();
-        this.startQRCodeTimer();
+        this.generateQRCodeFromNodeService();
     },
     beforeUnmount() {
         this.clearQRCodeTimer();
+        this.stopPollingQR();
     },
     methods: {
         generateIMEI() {
@@ -119,19 +78,41 @@ export default {
                 return;
             }
 
+            // Ưu tiên Channel Name từ user input, nếu không có thì dùng Zalo Account Name
+            const channelName = this.channelName?.trim() || this.zaloAccountName;
+
+            console.log('🔍 Creating channel with data:');
+            console.log('- Channel Name (user input):', this.channelName);
+            console.log('- Channel Name (final):', channelName);
+            console.log('- Zalo Account Name:', this.zaloAccountName);
+            console.log('- Cookie:', this.cookie);
+            console.log('- Cookie type:', typeof this.cookie);
+            console.log('- Cookie length:', this.cookie?.length);
+            console.log('- IMEI:', this.imei);
+            console.log('- User Agent:', this.userAgent);
+            console.log('- Proxy:', this.proxy);
+            console.log('- QR Code:', this.qrCode ? 'Present' : 'Missing');
+
+            // Validate cookie before creating channel
+            if (!this.cookie || this.cookie.length === 0) {
+                this.showAlert('Please connect your Zalo account first by scanning the QR code.');
+                return;
+            }
+
             try {
                 const zaloChannel = await this.$store.dispatch(
                     'inboxes/createChannel',
                     {
-                        name: this.channelName?.trim(),
+                        name: channelName,
                         channel: {
                             type: 'zalo_personal',
-                            name: this.channelName?.trim(),
+                            name: channelName,
+                            zalo_account_name: this.zaloAccountName || channelName,
+                            cookie: this.cookie,
                             imei: this.imei?.trim(),
                             user_agent: this.userAgent?.trim(),
                             proxy: this.proxy?.trim(),
                             qr_code: this.qrCode?.trim(),
-                            cookie: this.cookie,
                         },
                     }
                 );
@@ -150,34 +131,168 @@ export default {
             }
         },
 
-        async generateQRCode() {
+        async generateQRCodeFromNodeService() {
             if (this.isGeneratingQR) return;
 
             this.isGeneratingQR = true;
+            this.isPollingQR = true;
+
+            const self = this;
+
             try {
-                // Gọi API để generate QR code từ Zalo SDK
-                const response = await this.$store.dispatch('inboxes/generateZaloQRCode', {
-                    imei: this.imei,
-                    userAgent: this.userAgent,
+                console.log('🚀 Starting QR generation from Node.js service...');
+
+                // Bước 1: Gọi POST để sinh QR code
+                // Run QR code generation and polling concurrently, but still await the POST to get data
+                const [generateResponse] = await Promise.all([
+                    self.makeRequest(`${self.zaloServiceUrl}/qr-code`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }),
+                    self.startPollingQR(),
+                ]);
+
+                console.log('📡 Generate response status:', generateResponse.status);
+                console.log('📡 Generate response headers:', generateResponse.headers);
+
+                if (!generateResponse.ok) {
+                    const errorText = await generateResponse.text();
+                    console.error('❌ Generate response error:', errorText);
+                    throw new Error(`Failed to generate QR code: ${generateResponse.status} ${generateResponse.statusText}`);
+                }
+
+                const generateData = await generateResponse.json();
+                this.cookie = generateData.credentials.cookie || [];
+                this.zaloAccountName = generateData.accountName || 'Zalo Account';
+
+            } catch (error) {
+                console.error('❌ Error generating QR code:', error);
+
+                let errorMessage = 'Failed to connect to Zalo service';
+                if (error.message.includes('CORS')) {
+                    errorMessage = 'CORS error: Please check if Node.js service is running on port 3001';
+                } else if (error.message.includes('fetch')) {
+                    errorMessage = 'Network error: Cannot connect to Zalo service';
+                } else {
+                    errorMessage = error.message || this.$t('INBOX_MGMT.ADD.ZALO_PERSONAL.QR_GENERATION_ERROR');
+                }
+
+                this.isGeneratingQR = false;
+                this.isPollingQR = false;
+            }
+        },
+
+        async startPollingQR() {
+            const pollQR = async () => {
+                try {
+                    // Check QR code image
+                    const qrResponse = await this.makeRequest(`${this.zaloServiceUrl}/qr-code`, {
+                        method: 'GET',
+                    });
+
+                    if (qrResponse.ok) {
+                        const qrData = await qrResponse.json();
+                        console.log('📱 QR polling response:', qrData);
+
+                        if (qrData.success && qrData.data) {
+                            // Có QR code image
+                            this.qrCode = qrData.data;
+                            this.qrCodeExpiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
+                            this.isGeneratingQR = false;
+                            this.startQRCodeTimer();
+                        }
+                    }
+
+                    // Check login status
+                    const loginSuccess = await this.checkLoginStatus();
+                    if (loginSuccess) {
+                        this.stopPollingQR();
+                        return;
+                    }
+
+                    // Nếu chưa login thành công, tiếp tục polling
+                    if (this.isPollingQR) {
+                        setTimeout(pollQR, 3000); // Poll mỗi 3 giây
+                    }
+                } catch (error) {
+                    console.error('❌ Error polling QR code:', error);
+                    if (this.isPollingQR) {
+                        setTimeout(pollQR, 5000); // Retry sau 5 giây nếu có lỗi
+                    }
+                }
+            };
+
+            // Bắt đầu polling ngay lập tức
+            pollQR();
+        },
+
+        stopPollingQR() {
+            this.isPollingQR = false;
+            if (this.pollingInterval) {
+                clearInterval(this.pollingInterval);
+                this.pollingInterval = null;
+            }
+        },
+
+        async generateQRCode() {
+            // Wrapper method để regenerate QR code
+            this.stopPollingQR();
+            this.clearQRCodeTimer();
+            this.qrCode = '';
+            this.cookie = [];
+            this.zaloAccountName = '';
+            await this.generateQRCodeFromNodeService();
+        },
+
+        async checkLoginStatus() {
+            try {
+                const response = await this.makeRequest(`${this.zaloServiceUrl}/status`, {
+                    method: 'GET',
                 });
 
-                if (response.success) {
-                    this.qrCode = response.qr_code;
-                    // Sử dụng expires_at từ API response
-                    this.qrCodeExpiresAt = response.expires_at;
-
-                    // Restart timer for new QR code
-                    this.startQRCodeTimer();
-                } else {
-                    throw new Error(response.error || 'Failed to generate QR code');
+                if (!response.ok) {
+                    console.log('🔍 Status check response not ok:', response.status);
+                    return false;
                 }
+
+                const data = await response.json();
+                console.log('🔍 Login status:', data);
+
+                if (data.success && data.credentials) {
+                    // Debug cookie mapping
+                    console.log('🔍 Debug cookie mapping:');
+                    console.log('- data.credentials:', data.credentials);
+                    console.log('- data.credentials.cookie:', data.credentials.cookie);
+                    console.log('- typeof data.credentials:', typeof data.credentials);
+                    console.log('- Array.isArray(data.credentials):', Array.isArray(data.credentials));
+
+                    // Đã login thành công, lấy đầy đủ thông tin
+                    this.cookie = data.credentials.cookie || data.credentials || [];
+                    this.imei = data.credentials.imei || this.imei;
+                    this.userAgent = data.credentials.userAgent || this.userAgent;
+                    this.zaloAccountName = data.accountName || 'Zalo Account';
+
+                    console.log('✅ Zalo connection successful:');
+                    console.log('- Account Name:', this.zaloAccountName);
+                    console.log('- Device IMEI:', this.imei);
+                    console.log('- User Agent:', this.userAgent);
+                    console.log('- Cookies:', this.cookie);
+
+                    // Stop polling và clear QR
+                    this.stopPollingQR();
+                    this.clearQRCodeTimer();
+                    this.qrCode = '';
+
+                    this.showAlert('Zalo account connected successfully!');
+                    return true;
+                }
+
+                return false;
             } catch (error) {
-                this.showAlert(
-                    error?.response?.data?.error || error.message ||
-                    this.$t('INBOX_MGMT.ADD.ZALO_PERSONAL.QR_GENERATION_ERROR')
-                );
-            } finally {
-                this.isGeneratingQR = false;
+                console.error('❌ Error checking login status:', error);
+                return false;
             }
         },
 
@@ -202,6 +317,45 @@ export default {
         showAlert(message) {
             const { showAlert } = useAlert();
             showAlert(message);
+        },
+
+        truncateText(text, maxLength = 50) {
+            if (!text) return '';
+            if (text.length <= maxLength) return text;
+            return text.substring(0, maxLength) + '...';
+        },
+
+        async makeRequest(url, options = {}) {
+            // Create fetch WITHOUT credentials to avoid CORS issues
+            const defaultOptions = {
+                mode: 'cors',
+                credentials: 'omit', // Don't include credentials
+                referrerPolicy: 'strict-origin-when-cross-origin',
+                headers: {
+                    'Accept': 'application/json',
+                    'Origin': window.location.origin,
+                    ...options.headers,
+                },
+            };
+
+            const finalOptions = { ...defaultOptions, ...options };
+
+            try {
+                const response = await fetch(url, finalOptions);
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('❌ Response error:', errorText);
+                    throw new Error(`Request failed: ${response.status} ${response.statusText}`);
+                }
+
+                return response;
+            } catch (error) {
+                console.error('❌ Request error:', error);
+                console.error('❌ Error type:', error.name);
+                console.error('❌ Error message:', error.message);
+                throw error;
+            }
         },
     },
 };
@@ -280,6 +434,8 @@ export default {
                         {{ $t('INBOX_MGMT.ADD.ZALO_PERSONAL.QR_CODE.DESCRIPTION') }}
                     </p>
 
+                    <!-- Connection Status -->
+
                     <div class="qr-code-container">
                         <div v-if="qrCodeUrl && !isGeneratingQR" class="qr-code-display">
                             <div class="qr-image-wrapper">
@@ -303,25 +459,88 @@ export default {
                             </div>
                         </div>
 
-                        <div v-else class="qr-loading">
+                        <div v-else-if="!zaloAccountName" class="qr-loading">
                             <div class="spinner" />
-                            <p>{{ $t('INBOX_MGMT.ADD.ZALO_PERSONAL.QR_CODE.GENERATING') }}</p>
+                            <p>{{ isPollingQR ? 'Waiting for QR scan...' :
+                                $t('INBOX_MGMT.ADD.ZALO_PERSONAL.QR_CODE.GENERATING') }}</p>
+                        </div>
+
+                        <div v-else class="qr-connected">
+                            <div class="connected-icon">
+                                <i class="icon-check-circle" />
+                            </div>
+                            <p>Zalo account connected successfully!</p>
                         </div>
                     </div>
 
                     <div class="qr-actions mt-4">
-                        <NextButton :is-loading="isGeneratingQR" type="button" secondary @click="generateQRCode">
+                        <NextButton v-if="!zaloAccountName" :is-loading="isGeneratingQR" type="button" secondary
+                            @click="generateQRCode">
                             <i class="icon-refresh" />
                             {{ $t('INBOX_MGMT.ADD.ZALO_PERSONAL.QR_CODE.REGENERATE') }}
+                        </NextButton>
+                        <NextButton v-else :is-loading="isGeneratingQR" type="button" secondary @click="generateQRCode">
+                            <i class="icon-refresh" />
+                            Reconnect Account
                         </NextButton>
                     </div>
                 </div>
             </div>
 
+            <!-- Cookie Profile -->
+            <div class="flex-shrink-0 flex-grow-0">
+                <label>
+                    Cookie Profile
+                    <textarea v-model="cookieProfile" readonly class="flex-1" type="text"
+                        placeholder="Auto generated cookie profile" />
+                </label>
+            </div>
+
+            <!-- Channel Information Summary -->
+            <div v-if="cookie.length > 0" class="w-full mt-6 p-4 bg-gray-50 rounded-lg border">
+                <h3 class="text-lg font-semibold mb-3 text-gray-800">📋 Channel Information Summary</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div class="space-y-2">
+                        <div>
+                            <strong class="text-gray-700">Channel Name:</strong><br>
+                            <span class="text-gray-600">{{ zaloAccountName || channelName || 'N/A' }}</span>
+                        </div>
+                        <div>
+                            <strong class="text-gray-700">Device IMEI:</strong><br>
+                            <span class="text-gray-600">{{ imei || 'N/A' }}</span>
+                        </div>
+                        <div>
+                            <strong class="text-gray-700">User Agent:</strong><br>
+                            <span class="text-gray-600 text-xs break-all">{{ truncateText(userAgent, 60) }}</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div>
+                            <strong class="text-gray-700">Proxy Server:</strong><br>
+                            <span class="text-gray-600">{{ proxy || 'None' }}</span>
+                        </div>
+                        <div>
+                            <strong class="text-gray-700">Credentials Status:</strong><br>
+                            <span class="text-green-600">✅ Connected</span>
+                        </div>
+                        <div>
+                            <strong class="text-gray-700">QR Code:</strong><br>
+                            <span class="text-green-600">✅ Generated</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 p-3 bg-blue-50 rounded border-l-4 border-blue-400">
+                    <p class="text-sm text-blue-700">
+                        <strong>ℹ️ Ready to Create:</strong> All information will be saved and the automatic message
+                        flow will work as configured.
+                    </p>
+                </div>
+            </div>
+
             <!-- Submit Button -->
             <div class="w-full mt-6">
-                <NextButton :is-loading="uiFlags.isCreating" type="submit" solid blue
-                    :label="$t('INBOX_MGMT.ADD.ZALO_PERSONAL.SUBMIT_BUTTON')" />
+                <NextButton :is-loading="uiFlags.isCreating" type="submit" solid blue :disabled="cookie.length === 0"
+                    :label="cookie.length > 0 ? $t('INBOX_MGMT.ADD.ZALO_PERSONAL.SUBMIT_BUTTON') : 'Please connect Zalo first'" />
             </div>
         </form>
     </div>
@@ -428,6 +647,39 @@ export default {
 
 .qr-actions {
     text-align: center;
+}
+
+.connection-status {
+    padding: 1rem;
+    border-radius: 8px;
+    background: #f8f9fa;
+    border: 1px solid #e1e5e9;
+}
+
+.status-success {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #28a745;
+    font-weight: 600;
+}
+
+.status-success i {
+    font-size: 1.2rem;
+}
+
+.qr-connected {
+    text-align: center;
+    color: #28a745;
+}
+
+.connected-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.connected-icon i {
+    color: #28a745;
 }
 
 .flex {

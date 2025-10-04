@@ -194,13 +194,13 @@ Rails.application.routes.draw do
             delete :avatar, on: :member
             post :sync_templates, on: :member
             collection do
-          resources :zalo_personal, only: [] do
-            collection do
-              post :generate_qr
-              get :check_status
-              patch :update_settings
-            end
-          end
+              resources :zalo_personal, only: [] do
+                collection do
+                  post :generate_qr
+                  get :check_status
+                  patch :update_settings
+                end
+              end
             end
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id do
@@ -528,6 +528,19 @@ Rails.application.routes.draw do
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
+  post 'webhooks/zalo/process_payload', to: 'webhooks/zalo#process_payload'
+  patch 'webhooks/zalo/message_status', to: 'webhooks/zalo#message_status'
+
+  # Internal APIs for Node.js service
+  namespace :internal do
+    namespace :zalo do
+      resources :channels, only: [:index] do
+        member do
+          patch :status
+        end
+      end
+    end
+  end
 
   namespace :twitter do
     resource :callback, only: [:show]
