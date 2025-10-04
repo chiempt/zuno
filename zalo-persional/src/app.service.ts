@@ -1,59 +1,56 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { ZaloService } from './zalo/zalo.service';
+import { Injectable, Logger } from '@nestjs/common';
+import { MultiAccountManager } from './zalo/multi-account.manager';
+
 @Injectable()
-export class AppService implements OnModuleInit {
+export class AppService {
   private readonly logger = new Logger(AppService.name);
 
-  constructor(private readonly zaloService: ZaloService) {}
-
-  async onModuleInit() {
-    // Set up message forwarding from Zalo to Chatwoot
-    this.zaloService.on('message', async (zaloMessage) => {
-      this.logger.log('Forwarding Zalo message to Chatwoot:', {
-        messageId: zaloMessage.id,
-        senderId: zaloMessage.senderId,
-        threadId: zaloMessage.threadId,
-      });
-    });
-
-    this.logger.log(
-      'App service initialized with Zalo and Chatwoot integration',
-    );
-  }
+  constructor(private readonly multiAccountManager: MultiAccountManager) {}
 
   getHello(): string {
-    return 'Zalo Personal Service - Internal API with Chatwoot Integration';
+    return 'Hello from Zalo Multi-Account Service!';
   }
 
- 
-  async getQrcode(body: any): Promise<object> {
-    this.logger.log('Getting QR code', { body });
+  /**
+   * Initialize all accounts (call this manually)
+   */
+  async initializeAccounts() {
+    this.logger.log('🚀 Initializing Zalo Multi-Account Service...');
 
     try {
-      const qrData = await this.zaloService.loginQR();
-
-      return {
-        status: 'generated',
-        timestamp: new Date().toISOString(),
-        message: 'QR code generated successfully',
-        data: qrData,
-      };
+      await this.multiAccountManager.initializeAllAccounts();
+      this.logger.log('✅ Multi-Account initialization completed');
     } catch (error) {
-      this.logger.error('QR code generation error:', error);
-      return {
-        status: 'error',
-        timestamp: new Date().toISOString(),
-        message: 'QR code generation failed',
-        error: error.message,
-      };
+      this.logger.error('❌ Failed to initialize multi-account:', error);
     }
   }
 
-  getConnectionStatus(): object {
-    return {
-      status: 'ok',
-      timestamp: new Date().toISOString(),
-      data: 1,
-    };
+  /**
+   * Shutdown all accounts
+   */
+  async shutdownAccounts() {
+    this.logger.log('🔄 Shutting down Multi-Account Service...');
+    await this.multiAccountManager.shutdown();
+  }
+
+  /**
+   * Get all accounts status
+   */
+  getAccountsStatus() {
+    return this.multiAccountManager.getAllAccountsStatus();
+  }
+
+  /**
+   * Get connected accounts count
+   */
+  getConnectedCount(): number {
+    return this.multiAccountManager.getConnectedCount();
+  }
+
+  /**
+   * Send message to specific channel
+   */
+  async sendMessage(channelId: number, messageData: any) {
+    return await this.multiAccountManager.sendMessage(channelId, messageData);
   }
 }
